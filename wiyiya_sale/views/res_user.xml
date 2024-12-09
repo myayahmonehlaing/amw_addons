@@ -1,0 +1,26 @@
+<odoo>
+    <!-- Add "User Department" field to res.users list view -->
+    <record id="view_res_users_tree_inherit" model="ir.ui.view">
+        <field name="name">res.users.tree.inherit.department</field>
+        <field name="model">res.users</field>
+        <field name="inherit_id" ref="base.view_users_tree" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='lang']" position="after">
+                <field name="department_id" />
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Add "User Department" field to res.users form view -->
+    <record id="view_res_users_form_inherit" model="ir.ui.view">
+        <field name="name">res.users.form.inherit.department</field>
+        <field name="model">res.users</field>
+        <field name="inherit_id" ref="base.view_users_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='company_id']" position="after">
+                <field name="department_id" options="{'no_open': True}"
+                    placeholder="Select a Department" />
+            </xpath>
+        </field>
+    </record>
+</odoo>
