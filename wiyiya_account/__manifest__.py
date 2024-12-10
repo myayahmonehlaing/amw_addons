@@ -15,7 +15,7 @@
     'website': "https://www.smeintellect.com/",
     'category': 'Accounting Management',
     'version': '0.1',
-    'depends': ['account','hr_expense'],
+    'depends': ['account','hr_expense','base','hr'],
     'data': [
         'security/security.xml',
         'views/account_move_view.xml',

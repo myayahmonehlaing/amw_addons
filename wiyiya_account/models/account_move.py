@@ -1,22 +1,43 @@
 # -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 from collections import defaultdict
-from odoo import api,Command, fields, models, _
+from odoo import api, Command, fields, models, _
 from contextlib import ExitStack, contextmanager
+
 
 class AccountMove(models.Model):
     _inherit = "account.move"
 
-    is_employee_advance = fields.Boolean("Is Advance",change_default=True,)
+    is_employee_advance = fields.Boolean("Is Advance", change_default=True, )
     related_advance_id = fields.Many2one('account.move', string="Related Advance",
                                          domain=[('move_type', '=', 'in_invoice'), ('is_employee_advance', '=', True)])
-    hr_expense_sheet_count = fields.Integer("Expense Sheet Count" , compute='_compute_hr_expense_sheet_count',)
+    hr_expense_sheet_count = fields.Integer("Expense Sheet Count", compute='_compute_hr_expense_sheet_count', )
 
+    department_id = fields.Many2one(
+        "hr.department",
+        string="Department",
+        compute="_compute_department",
+        store=True,
+        readonly=False
+    )
+
+    @api.depends("user_id", "user_id.department_id")
+    def _compute_department(self):
+        """
+        Compute and store the department_id based on the user_id's department.
+        """
+        for record in self:
+            if record.user_id and record.user_id.department_id:
+                # Set department_id to the user's department
+                record.department_id = record.user_id.department_id
+            else:
+                # Clear the department_id if no department is assigned
+                record.department_id = False
 
     def _compute_hr_expense_sheet_count(self):
         for record in self:
             record.hr_expense_sheet_count = self.env['hr.expense.sheet'].search_count(
-            [('advance_id', '=', record.id)])
+                [('advance_id', '=', record.id)])
 
     @contextmanager
     def _sync_tax_lines(self, container):
