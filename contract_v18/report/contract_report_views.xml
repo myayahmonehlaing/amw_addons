@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_contract_product_pivot" model="ir.ui.view">
+        <field name="name">sale.cotract.report.pivot</field>
+        <field name="model">sale.contract.report</field>
+        <field name="arch" type="xml">
+            <pivot string="Contract Analysis" sample="1">
+                <field name="user_id" type="col"/>
+                <field name="date" interval="month" type="row"/>
+                <field name="quantity" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+    <record id="sale_contract_report_view_tree" model="ir.ui.view">
+        <field name="name">sale contract report view list</field>
+        <field name="model">sale.contract.report</field>
+        <field name="arch" type="xml">
+            <list string="Sales Contract Report Analysis"
+                  action="action_open_order" type="object">
+
+                <field name="name"/>
+                <field name="user_id" optional="show" widget="many2one_avatar_user"/>
+                <field name="date"/>
+                <field name="partner_id"/>
+
+                <field name="company_id"
+                       optional="show" groups="base.group_multi_company"/>
+                <field name="quantity" string="Quantity" sum="Sum of Quantity"/>
+                <field name="subtotal" optional="hide" sum="Sum of subtotal"/>
+
+                <field name="unit_price" widget="monetary" sum="Sum of unit_price"/>
+
+                <field name="total" optional="show" sum="Sum of Total"/>
+                <field name="state" optional="hide"/>
+<!--                <field name="pricelist_id" optional="hide"/>-->
+
+            </list>
+        </field>
+    </record>
+
+    <record id="action_sale_contract_report_all" model="ir.actions.act_window">
+        <field name="name">Sale Contracts Analysis</field>
+        <field name="res_model">sale.contract.report</field>
+        <field name="view_mode">graph,pivot,list,form</field>
+        <field name="view_id"></field>  <!-- force empty -->
+<!--        <field name="search_view_id" ref="view_order_product_search"/>-->
+        <field name="help">This report performs analysis on your sale contracts. Analysis check your sales
+            contract revenues and sort it by different group criteria (salesman, partner, product, etc.)
+        </field>
+
+    </record>
+
+</odoo>

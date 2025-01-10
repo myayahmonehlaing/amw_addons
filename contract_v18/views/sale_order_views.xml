@@ -1,0 +1,28 @@
+<odoo>
+    <record id="sale_contract_view_form" model="ir.ui.view">
+        <field name="name">sale.order.form</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <!-- Add a new Confirm and Check Stock button -->
+            <xpath expr="//group[@name='sale_header']/group/field[@name='partner_shipping_id']" position="after">
+                <label name="sale_contract_id_label" for="contract_id" string="Contract"
+                       class="oe_edit_only"/>
+                <field name="contract_id" nolabel="1" class="oe_edit_only"
+                       placeholder="Select a contract"
+                       options="{'no_create': True}" context="{'show_total_amount': True}"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="sale_contract_order_tree" model="ir.ui.view">
+        <field name="name">sale.contract.order.list</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.sale_order_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="contract_id" string="Contract" optional="show"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>
