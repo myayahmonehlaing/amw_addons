@@ -1,0 +1,15 @@
+Description: Automate Sale process to paid
+Feature:
+	1. Sale Order and Paid Button in sale order form
+	2. Automate Sale Order menuitem in the sale order tree
+	
+Detail:
+	1> Sale Order and Paid Button in Sale order form
+		-Button Will show in the draft state only
+		-Firstly you must need to fill the field of the journal(bank/cash ...etc)
+		-Cliked the button and then sale quotation will change to sale order. Need to validate in delivery. Create Invoice and paid with the selected journal.
+		
+	2> Automate Sale Order menuitem in the sale order tree
+		-Action menu will show when you selected one or more line in the sale order tree
+		-The action will work in all state you created for the sale order. it will carry to finish to paid done and need to validate in delivery.
+		-If you do for the paid, it will not change to any more.
