@@ -1,0 +1,8 @@
+Module Name:sale_report
+View: sale>reporting>Sale Reports (can view by sale_team.group_sale_manager)
+
+Conditions: ->All input are require
+	    ->last date is less than the start date: show validation error
+	    
+Function:To print pdf and xls of sale orders in the input date range
+	 

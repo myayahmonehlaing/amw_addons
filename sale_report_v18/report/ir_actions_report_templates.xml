@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Main template to define the PDF structure -->
+    <template id="report_saleorder_report_pdf_document">
+        <t t-call="web.external_layout">
+            <div class="page">
+                <div class="oe_structure"/>
+
+                <!-- Displaying the user-selected date range -->
+                <t t-set="layout_document_title">Sale Report</t>
+                <p>
+                    <strong>Date From:</strong>
+                    <span t-field="doc.date_from"/>
+                </p>
+                <p>
+                    <strong>Date To:</strong>
+                    <span t-field="doc.date_to"/>
+                </p>
+
+                <!-- Example content table for sales report -->
+                <table class="table table-sm mt32">
+                    <thead>
+                        <tr>
+                            <th>Sale Order</th>
+                            <th>Customer</th>
+                            <th>Date</th>
+                            <th>Product</th>
+                            <th>Description</th>
+                            <th>Quantity</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <t t-foreach="doc.get_sale_orders()" t-as="order">
+                            <tr>
+                                <t t-foreach="order.order_line" t-as="line">
+                                    <tr>
+                                        <td>
+                                            <t t-esc="order.name"/>
+                                        </td>
+                                        <td>
+                                            <t t-esc="order.partner_id.name"/>
+                                        </td>
+                                        <td>
+                                            <t t-esc="order.date_order.strftime('%d/%m/%Y')"/>
+                                        </td>
+                                        <td>
+                                            <t t-esc="line.product_id.default_code"/>
+                                        </td>
+                                        <td>
+                                            <t t-esc="line.product_id.name"/>
+                                        </td>
+                                        <td>
+                                            <t t-esc="line.product_uom_qty"/>
+                                        </td>
+                                        <td>
+                                            <t t-esc="line.price_subtotal"/>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </tr>
+                        </t>
+                        <tr>
+                            <td colspan="6" style="text-align: right; font-weight: bold;">Total:</td>
+                            <td style="font-weight: bold;">
+                                <t t-esc="sum(line.price_subtotal for order in doc.get_sale_orders() for line in order.order_line)"/>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </t>
+    </template>
+
+    <template id="report_saleorder_date_range">
+        <t t-call="sale_report.report_saleorder_date_range_raw"/>
+    </template>
+
+    <template id="report_saleorder_date_range_raw">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="sale_report.report_saleorder_report_pdf_document"/>
+            </t>
+        </t>
+    </template>
+
+    <!-- Action for pdf -->
+    <record id="action_report_saleorder_date_range" model="ir.actions.report">
+        <field name="name">Sale Order Report (Date Range)</field>
+        <field name="model">sale.report.wizard</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">sale_report.report_saleorder_date_range</field>
+        <field name="report_file">sale_report.report_saleorder_date_range</field>
+        <field name="binding_model_id" ref="sale_report.model_sale_report_wizard"/>
+    </record>
+
+</odoo>
