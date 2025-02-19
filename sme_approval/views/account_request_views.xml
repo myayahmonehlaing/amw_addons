@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="approval_request_view_form_inherit" model="ir.ui.view">
+        <field name="name">approval.request.view.form.inherit</field>
+        <field name="model">approval.request</field>
+        <field name="inherit_id" ref="approvals.approval_request_view_form"/>
+        <field name="arch" type="xml">
+            <field name="product_line_ids" position="attributes">
+                <attribute name="readonly">0</attribute>
+            </field>
+            <field name="company_id" position="after">
+                <field name="to_purchase" invisible="1"/>
+            </field>
+            <xpath expr="//field[@name='product_line_ids']" position="inside">
+                <list editable="bottom" string="Products">
+                    <field name="company_id" column_invisible="True"/>
+                    <field name="approval_request_id" column_invisible="True"/>
+                    <field name="product_id" readonly="parent.request_status != 'new'"
+                           required="parent.approval_type != 'purchase' and parent.has_product == 'required'"/>
+                    <field name="description" readonly="parent.request_status != 'new'"/>
+                    <field name="warehouse_id" readonly="parent.request_status != 'new'"
+                           groups="stock.group_stock_multi_warehouses"
+                           options="{'no_create_edit': True, 'no_open': True}"
+                           column_invisible="parent.has_location == 'no'" required="parent.has_location == 'required'"/>
+                    <field name="quantity" readonly="parent.request_status != 'new'"
+                           column_invisible="parent.has_quantity == 'no'"
+                           required="parent.has_quantity == 'required' and parent.request_status != 'new'"/>
+                    <field name="product_uom_id" readonly="parent.request_status != 'new'" groups="uom.group_uom"
+                           options="{'no_create': True, 'no_open': True}"/>
+                    <field name="qty_purchased" readonly="1" column_invisible="parent.request_status !='rfq'"/>
+                    <field name="qty_to_purchase" column_invisible="parent.request_status !='rfq'"
+                           readonly="not parent.to_purchase"/>
+                    <field name="product_uom_category_id" column_invisible="True"/>
+                </list>
+            </xpath>
+        </field>
+    </record>
+
+
+    <record id="approval_cll_request_view_form_inherit" model="ir.ui.view">
+        <field name="name">approval.cll.request.view.form.inherit</field>
+        <field name="model">approval.request</field>
+        <field name="inherit_id" ref="approvals_purchase.approval_purchase_request_view_form_inherit"/>
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='action_confirm']" position="after">
+                <field name="to_purchase" invisible="1"/>
+                <button name="action_create_rfq" type="object"
+                        string="Create RFQ's" class="btn-primary"
+                        data-hotkey="g"
+                        invisible="approval_type != 'purchase' or request_status != 'approved' or purchase_order_count &gt; 0"/>
+
+            </xpath>
+            <xpath expr="//button[@name='action_create_purchase_orders']" position="attributes">
+<!--                <attribute name="groups">cll_approval.group_copy_to_po_permission</attribute>-->
+                <attribute name="string">Copy To PO</attribute>
+                <attribute name="invisible">approval_type != 'purchase' or request_status != 'rfq' or not to_purchase
+                </attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="approval_action_settings" model="ir.actions.act_window">
+        <field name="name">Settings</field>
+        <field name="res_model">res.config.settings</field>
+        <field name="view_mode">form</field>
+        <field name="target">inline</field>
+        <field name="context">{'module' : 'approvals', 'bin_size': False}</field>
+    </record>
+
+    <menuitem
+            id="approval_menu_settings_config"
+            name="Settings"
+            parent="approvals.approvals_menu_config"
+            sequence="1"
+            action="approval_action_settings"
+            groups="base.group_system"/>
+
+
+    <record id="approval_search_view_search_inherit" model="ir.ui.view">
+        <field name="name">approval.request.search.inherit</field>
+        <field name="model">approval.request</field>
+        <field name="priority">20</field>
+        <field name="inherit_id" ref="approvals.approval_search_view_search"/>
+        <field name="arch" type="xml">
+            <filter name="filter_my_request" position="after">
+                <filter string="Request To Purchase" name="filter_to_purchase" domain="[('to_purchase', '=', True)]"/>
+            </filter>
+
+        </field>
+    </record>
+
+    <record id="purchase_request_action" model="ir.actions.act_window">
+        <field name="name">Purchase Requests</field>
+        <field name="res_model">approval.request</field>
+        <field name="view_id" ref="approvals.approval_request_view_tree"/>
+        <field name="search_view_id" ref="approvals.approval_search_view_search"/>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('request_status','=','rfq')]</field>
+        <field name="context">{'search_default_filter_to_purchase': 1}</field>
+    </record>
+
+    <menuitem
+            id="menu_purchase_request"
+            name="Purchase Requests "
+            parent="purchase.menu_procurement_management"
+            sequence="0"
+            action="purchase_request_action"
+    />
+
+
+</odoo>

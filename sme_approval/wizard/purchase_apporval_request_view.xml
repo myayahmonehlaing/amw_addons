@@ -1,0 +1,41 @@
+<odoo>
+    <record id="view_purchase_approval_request_form" model="ir.ui.view">
+        <field name="name">purchase.approval.request.form</field>
+        <field name="model">purchase.approval.request</field>
+        <field name="arch" type="xml">
+            <form string="Purchase Approval Request">
+                <sheet>
+                    <group>
+                        <field name="approval_request_ids" widget="many2many_tags" options="{'no_create': True}"/>
+                    </group>
+                    <field name="purchase_approval_product_line_ids"
+                           context="{'tree_view_ref': 'view_purchase_approval_request_line_tree'}"/>
+                </sheet>
+                <footer>
+                    <button string="Import Entries" type="object" class="oe_highlight"
+                            name="action_create_purchase_order_line"/>
+                    <button string="Cancel" class="oe_link" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_purchase_approval_request_line_tree" model="ir.ui.view">
+        <field name="name">purchase.approval.request.line.tree</field>
+        <field name="model">purchase.approval.request.line</field>
+        <field name="arch" type="xml">
+            <list string="Products" delete="0" editable="bottom" create="0">
+                <field name="approval_request_id" force_save="1" readonly="1"/>
+                <field name="wizard_id" column_invisible="True" force_save="1" readonly="1"/>
+                <field name="approval_product_line_id" column_invisible="True" force_save="1"/>
+                <field name="product_id" force_save="1" readonly="1"/>
+                <field name="quantity" force_save="1" readonly="1"/>
+                <field name="product_uom_id" force_save="1" readonly="1"/>
+                <field name="qty_purchased" force_save="1" readonly="1"/>
+                <field name="qty_to_purchase" readonly="0"/>
+            </list>
+        </field>
+    </record>
+
+
+</odoo>
