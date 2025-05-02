@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="action_healthcare_billings_view" model="ir.actions.act_window">
+        <field name="name">Billing</field>
+        <field name="res_model">healthcare.billing</field>
+        <field name="view_mode">list,kanban,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a billing in Health Care Center
+            </p>
+        </field>
+    </record>
+
+    <record id="view_healthcare_billings_list" model="ir.ui.view">
+        <field name="name">res.healthcare.billings.list</field>
+        <field name="model">healthcare.billing</field>
+        <field name="arch" type="xml">
+            <list string="Billings" sample="1">
+                <field name="name" optional="show"/>
+                <field name="appointment" optional="show"/>
+                <field name="patient" optional="show"/>
+                <field name="facility" optional="show"/>
+                <field name="provider" optional="show"/>
+                <field name="age" optional="show"/>
+                <field name="sex" optional="show"/>
+                <field name="date" optional="show"/>
+                <field name="state" optional="show"/>
+                <field name="currency" optional="show"/>
+            </list>
+        </field>
+    </record>
+
+
+    <record id="view_healthcare_billings_form" model="ir.ui.view">
+        <field name="name">res.healthcare.billing.form</field>
+        <field name="model">healthcare.billing</field>
+        <field name="arch" type="xml">
+            <form string="Billings">
+                <header>
+                    <button name="create_sale_order"
+                            type="object"
+                            string="Confirm"
+                            class="oe_highlight"/>
+                    <field name="state"
+                           widget="statusbar"
+                           options="{'clickable': True}"/>
+                </header>
+                <sheet>
+                    <!--                    <div class="oe_button_box" name="button_box">-->
+                    <!--                        <button name="action_view_saleorder"-->
+                    <!--                                type="object"-->
+                    <!--                                class="oe_stat_button"-->
+                    <!--                                icon="fa-pencil-square-o"-->
+                    <!--                                invisible="sale_order_count == 0">-->
+                    <!--                            <field name="sale_order_count" widget="statinfo" string="Sale Orders"/>-->
+                    <!--                        </button>-->
+                    <!--                    </div>-->
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="appointment"/>
+                            <field name="patient"/>
+                            <field name="facility"/>
+                            <field name="provider"/>
+                        </group>
+                        <group>
+                            <field name="date"/>
+                            <field name="age"/>
+                            <field name="sex"/>
+                            <field name="currency"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Billing Procedures" name="procedures">
+                            <field
+                                    name="procedure"
+                                    widget="sol_o2m"
+                                    mode="list">
+                                <list
+                                        string="Healthcare Billing Procedures"
+                                        editable="bottom"
+                                        limit="200"
+                                >
+                                    <field name="description"/>
+                                    <field name="qty"/>
+                                    <field name="price"/>
+                                    <field name="amount"/>
+                                </list>
+                            </field>
+                            <group name="note_group" col="8" class="mt-2 mt-md-0">
+                                <group class="oe_subtotal_footer d-flex order-0 order-lg-1 flex-row flex-nowrap align-items-center gap-3"
+                                       colspan="7" name="procedure_total">
+                                    <field name="procedure_total"
+                                           readonly="1"/>
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+                    <notebook>
+                        <page string="Billing Products" name="products">
+                            <field
+                                    name="product"
+                                    widget="sol_o2m"
+                                    mode="list">
+                                <list
+                                        string="Sales Order Lines"
+                                        editable="bottom"
+                                        limit="200"
+                                >
+                                    <field name="product"/>
+                                    <field name="qty"/>
+                                    <field name="price"/>
+                                    <field name="amount"/>
+                                </list>
+                            </field>
+                            <group col="12" class="oe_invoice_lines_tab overflow-hidden">
+                                    <group colspan="8">
+                                    </group>
+                                    <group colspan="4">
+                                        <group class="oe_subtotal_footer">
+
+                                            <field name="product_total" readonly="1"/>
+                                            <field name="total_amount" readonly="1"/>
+                                            <field name="amount_due" readonly="1" class="oe_subtotal_footer_separator"/>
+                                        </group>
+                                    </group>
+                                </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_healthcare_billing_kanban" model="ir.ui.view">
+        <field name="name">res.healthcare.billing.kanban</field>
+        <field name="model">healthcare.billing</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_mobile" sample="1" quick_create="false">
+<!--                <progressbar field="activity_state"-->
+<!--                             colors='{"planned": "success", "today": "warning", "overdue": "danger"}'/>-->
+                <templates>
+                    <t t-name="card">
+                        <div class="d-flex align-items-baseline mb-2">
+                            <field name="name" class="fw-bolder fs-5 me-2"/>
+                            <field name="total_amount" widget="monetary" class="fw-bolder ms-auto flex-shrink-0"/>
+                        </div>
+                        <footer class="align-items-end">
+                            <div class="d-flex flex-wrap gap-1 text-muted text-nowrap">
+                                <field name="patient"/>
+                                <field name="provider"/>
+                                <field name="appointment"/>
+                            </div>
+                            <field name="state"
+                                   widget="label_selection"
+                                   options="{'classes': {'draft': 'info', 'confirm': 'success'}}"
+                                   class="ms-auto"/>
+                        </footer>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+</odoo>

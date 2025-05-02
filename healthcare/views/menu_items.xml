@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <menuitem name="Healthcare"
+              id="menu_healthcare"
+              groups="base.group_user,base.group_partner_manager"/>
+
+    <menuitem id="healthcare_appointments_menu_item"
+              name="Appointments"
+              parent="menu_healthcare"
+              sequence="1">
+        <menuitem id="healthcare_appointments_appointments_menu_item"
+                  action="charm_ehr.action_healthcare_appointments_view"
+                  name="Appointments"
+                  sequence="10"/>
+        <menuitem id="healthcare_configuration_schedule_rules_menu_item"
+                  action="charm_ehr.action_healthcare_schedule_rules_view"
+                  name="Schedule Rules"
+                  sequence="20"/>
+        <menuitem id="healthcare_appointments_patients_menu_item"
+                  action="charm_ehr.action_healthcare_appointment_patients_view"
+                  name="Patients"
+                  sequence="30"/>
+        <menuitem id="healthcare_appointments_product_template_service_menu_item"
+                  action="charm_ehr.healthcare_appointments_procedure_template_action"
+                  name="Procedures"
+                  sequence="40"/>
+        <menuitem id="healthcare_appointments_product_template_goods_menu_item"
+                  action="charm_ehr.healthcare_appointments_product_template_action"
+                  name="Product"
+                  sequence="50"/>
+    </menuitem>
+
+    <menuitem id="healthcare_billings_menu_item"
+              action="charm_ehr.action_healthcare_billings_view"
+              name="Billings"
+              parent="menu_healthcare"
+              sequence="2"/>
+    <menuitem id="healthcare_labs_menu_item"
+              action="charm_ehr.action_healthcare_labs_view"
+              name="Labs"
+              parent="menu_healthcare"
+              sequence="3"/>
+    <menuitem id="healthcare_images_menu_item"
+              action="charm_ehr.action_healthcare_images_view"
+              name="Images"
+              parent="menu_healthcare"
+              sequence="4"/>
+
+    <menuitem id="healthcare_configuration_menu_item"
+              name="Configuration"
+              parent="menu_healthcare"
+              sequence="5">
+        <menuitem id="healthcare_configuration_appointment_setting_menu_item"
+                  action="charm_ehr.healthcare_config_settings_action"
+                  name="Setting"
+                  sequence="10"/>
+        <menuitem id="healthcare_configuration_facilities_menu_item"
+                  action="charm_ehr.action_healthcare_facility_view"
+                  name="Facilities"
+                  sequence="20"/>
+        <menuitem id="healthcare_configuration_resources_menu_item"
+                  action="charm_ehr.action_healthcare_resources_view"
+                  name="Resources"
+                  sequence="30"/>
+        <menuitem id="healthcare_configuration_visit_types_menu_item"
+                  action="charm_ehr.action_healthcare_visit_types_view"
+                  name="Visit Types"
+                  sequence="40"/>
+        <menuitem id="healthcare_configuration_providers_menu_item"
+                  action="charm_ehr.action_healthcare_providers_view"
+                  name="Providers"
+                  sequence="50"/>
+        <menuitem id="healthcare_configuration_appointment_status_menu_item"
+                  action="charm_ehr.action_healthcare_appointment_status_view"
+                  name="Appointment Status"
+                  sequence="60"/>
+    </menuitem>
+</odoo>

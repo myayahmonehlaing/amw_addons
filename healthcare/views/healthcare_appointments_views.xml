@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="action_healthcare_appointments_view" model="ir.actions.act_window">
+        <field name="name">Appointment</field>
+        <field name="res_model">healthcare.appointment</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a appointment in Health Care Center
+            </p>
+        </field>
+    </record>
+
+    <record id="view_healthcare_appointment_list" model="ir.ui.view">
+        <field name="name">res.healthcare.appointment.list</field>
+        <field name="model">healthcare.appointment</field>
+        <field name="arch" type="xml">
+            <list string="Appointments" sample="1">
+                <field name="facility" optional="show"/>
+                <field name="category" optional="show"/>
+                <field name="patient" optional="hide"/>
+                <field name="provider" optional="show"/>
+                <field name="visit_type" optional="show"/>
+                <field name="resource" optional="show"/>
+                <field name="appointment_mode" optional="show"/>
+                <field name="date" optional="show"/>
+                <field name="reason" optional="show"/>
+                <field name="message_to_patient" optional="show"/>
+                <field name="status" optional="show"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_healthcare_appointment_form" model="ir.ui.view">
+        <field name="name">res.healthcare.appointment.form</field>
+        <field name="model">healthcare.appointment</field>
+        <field name="arch" type="xml">
+            <form string="Appointments">
+                <header>
+                    <field name="status" widget="statusbar" options="{'clickable': '1'}"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="facility"/>
+                            <field name="category" widget="radio" options="{'horizontal': true}"/>
+                            <field name="patient"/>
+                            <field name="provider"/>
+                            <field name="visit_type"/>
+                            <field name="resource"/>
+                        </group>
+                        <group>
+                            <field name="date"/>
+                            <field name="appointment_mode" widget="radio" options="{'horizontal': true}"/>
+                            <field name="reason"/>
+                            <field name="message_to_patient"/>
+                        </group>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+<!--    <record id="view_healthcare_appointment_kanban" model="ir.ui.view">-->
+<!--        <field name="name">res.healthcare.appointment.kanban</field>-->
+<!--        <field name="model">healthcare.appointment</field>-->
+<!--        <field name="arch" type="xml">-->
+<!--            <kanban class="o_kanban_mobile" sample="1" quick_create="false">-->
+<!--                <progressbar field="activity_state"-->
+<!--                             colors='{"planned": "success", "today": "warning", "overdue": "danger"}'/>-->
+<!--                <templates>-->
+<!--                    <t t-name="card">-->
+<!--                        <div class="d-flex align-items-baseline mb-2">-->
+<!--                            <field name="name" class="fw-bolder fs-5 me-2"/>-->
+<!--                            <field name="date" class="fw-bolder ms-auto flex-shrink-0"/>-->
+<!--                        </div>-->
+<!--                        <footer class="align-items-end">-->
+<!--                            <div class="d-flex flex-wrap gap-1 text-muted text-nowrap">-->
+<!--                                <field name="name"/>-->
+<!--                                <field name="date_order"/>-->
+<!--                                <field name="activity_ids" widget="kanban_activity"/>-->
+<!--                            </div>-->
+<!--                            <field name="state"-->
+<!--                                   widget="label_selection"-->
+<!--                                   options="{'classes': {'draft': 'info', 'cancel': 'default', 'sale': 'success'}}"-->
+<!--                                   class="ms-auto"/>-->
+<!--                        </footer>-->
+<!--                    </t>-->
+<!--                </templates>-->
+<!--            </kanban>-->
+<!--        </field>-->
+<!--    </record>-->
+</odoo>
