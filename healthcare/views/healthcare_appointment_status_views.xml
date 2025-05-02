@@ -16,7 +16,7 @@
         <field name="name">healthcare.appointment.status.list</field>
         <field name="model">healthcare.appointment.status</field>
         <field name="arch" type="xml">
-            <list string="Appointment Status" class="o_appointment_type_view_list" js_class="appointment_type_list" multi_edit="1" sample="1">
+            <list string="Appointment Status" class="o_appointment_type_view_list" multi_edit="1" sample="1">
                 <field name="sequence" widget="handle"/>
                 <field name="name" optional="show"/>
                 <field name="default" optional="show"/>
