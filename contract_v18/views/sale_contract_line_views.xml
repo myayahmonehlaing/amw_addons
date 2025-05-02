@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_contract_sale_line_tree" model="ir.ui.view">
+        <field name="name">contract.sale.line.list</field>
+        <field name="model">contract.sale.line</field>
+        <field name="arch" type="xml">
+            <list string="Contract Sales Lines" create="false">
+
+                <field name="contract_id"/>
+                <field name="company_id"/>
+                <field name="name"/>    <!-- lINE  Name -->
+                <field name="product_id"/>
+                <field name="quantity" string="Qty"/>
+                <field name="sale_quantity"/>
+                <field name="qty_to_sale"/> <!-- amount of quanty to sale remining -->
+                <field name="uom_id" string="Unit of Measure" groups="uom.group_uom"/>
+<!--                <field name="price_subtotal" sum="Total" widget="monetary"/>-->
+<!--                <field name="currency_id" column_invisible="True"/>-->
+            </list>
+        </field>
+    </record>
+
+    <record id="contract.sale_line_view_form_readonly" model="ir.ui.view">
+        <field name="name">contract.sale.line.form.readonly</field>
+        <field name="model">contract.sale.line</field>
+        <field name="arch" type="xml">
+            <form string="Contract Sales Item" edit="false">
+<!--                <field name="display_type" invisible="1"/>-->
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+<!--                            <field name="product_updatable" invisible="1"/>-->
+                            <field name="contract_id" readonly="1" force_save="1"/>
+                            <field name="product_id" invisible="1"/>
+                            <field name="uom_id" invisible="1"/>
+<!--                            <field name="qty_delivered_method" invisible="1"/>-->
+<!--                            <field name="state" invisible="1"/>-->
+                            <field name="product_id"
+                                readonly="id and not product_updatable"
+                                required="not display_type"
+                                force_save="1"
+                                widget="many2one_barcode"/>
+                            <field name="name"/>
+                            <field name="uom_id"/>
+                            <field name="quantity"
+                                invisible="state not in ['sale', 'done']"
+                                readonly="qty_delivered_method != 'manual'"/>
+                            <field name="qty_to_sale" invisible="state not in ['contract', 'done']"/>
+                            <field name="uom_id"
+                                force_save="1"
+                                groups="uom.group_uom"
+                                readonly="product_uom_readonly"
+                                required="not display_type"/>
+                            <field name="uom_id" groups="!uom.group_uom" invisible="1"/>
+                            <field name="company_id" options="{'no_create': True}"/>
+                        </group>
+                        <group>
+                            <field name="company_id" invisible="1"/>
+                            <field name="unit_price"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+<!--    <record id="view_contract_sale_line_filter" model="ir.ui.view">-->
+<!--        <field name="name">contract.sale.line.select</field>-->
+<!--        <field name="model">contract.sale.line</field>-->
+<!--        <field name="arch" type="xml">-->
+<!--            <search string="Search Contract Sales">-->
+<!--                <filter string="To Sale"-->
+<!--                    name="to_sale"-->
+<!--                    domain="[('qty_to_sale', '!=', 0)]"-->
+<!--                    help="Contract Sales Lines ready to be sale"/>-->
+<!--                <separator/>-->
+<!--&lt;!&ndash;                <filter string="My Sales Order Lines"&ndash;&gt;-->
+<!--&lt;!&ndash;                    name="my_sales_order_lines"&ndash;&gt;-->
+<!--&lt;!&ndash;                    domain="[('salesman_id','=',uid)]"&ndash;&gt;-->
+<!--&lt;!&ndash;                    help="Sales Order Lines related to a Sales Order of mine"/>&ndash;&gt;-->
+<!--                <field name="contract_id"/>-->
+<!--&lt;!&ndash;                <field name="order_partner_id" operator="child_of"/>&ndash;&gt;-->
+<!--                <field name="product_id"/>-->
+<!--&lt;!&ndash;                <field name="salesman_id"/>&ndash;&gt;-->
+<!--                <group expand="0" string="Group By">-->
+<!--                    <filter string="Product" name="product" domain="[]" context="{'group_by':'product_id'}"/>-->
+<!--                    <filter string="Order" name="order" domain="[]" context="{'group_by':'order_id'}"/>-->
+<!--                    <filter string="Salesperson" name="salesperson" domain="[]" context="{'group_by':'salesman_id'}"/>-->
+<!--                </group>-->
+<!--            </search>-->
+<!--        </field>-->
+<!--    </record>-->
+
+    <record id="contract_sale_line_view_kanban" model="ir.ui.view">
+        <field name="name">contract.sale.line.kanban</field>
+        <field name="model">contract.sale.line</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_mobile">
+                <templates>
+                    <t t-name="card">
+                        <field name="name"/>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+</odoo>

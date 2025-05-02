@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <data noupdate="0">
+        <record id="group_purchase_subcon_user" model="res.groups">
+            <field name="name">Subcon User</field>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+            <field name="category_id" ref="base.module_category_inventory_purchase"/>
+        </record>
+        <record id="purchase.group_purchase_manager" model="res.groups">
+            <field name="implied_ids"
+                   eval="[(4, ref('group_purchase_subcon_user')), (4, ref('purchase.group_purchase_user'))]"/>
+        </record>
+    </data>
+    <data noupdate="1">
+        <record model="ir.rule" id="purchase_order_manager_rule">
+            <field name="name">Purchase Order Manager</field>
+            <field name="model_id" ref="purchase.model_purchase_order"/>
+            <field name="groups" eval="[(4, ref('purchase.group_purchase_manager'))]"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+        </record>
+
+        <record model="ir.rule" id="purchase_order_user_rule">
+            <field name="name">Purchase Order User</field>
+            <field name="model_id" ref="purchase.model_purchase_order"/>
+            <field name="groups" eval="[(4, ref('purchase.group_purchase_user'))]"/>
+            <field name="domain_force">[('is_subcontract', '=', False)]</field>
+        </record>
+
+        <record model="ir.rule" id="purchase_order_subcon_rule">
+            <field name="name">Purchase Order Subcon</field>
+            <field name="model_id" ref="purchase.model_purchase_order"/>
+            <field name="groups" eval="[(4, ref('group_purchase_subcon_user'))]"/>
+            <field name="domain_force">[('is_subcontract', '=', True)]</field>
+        </record>
+
+    </data>
+    <record id="group_copy_to_po_permission" model="res.groups">
+        <field name="name">Copy to PO Permission</field>
+        <field name="category_id" ref="base.module_category_usability"/>
+    </record>
+
+    <record id="approval_request_purchase_user_rule" model="ir.rule">
+        <field name="name">Approval Request: Purchase User rule</field>
+        <field name="model_id" ref="approvals.model_approval_request"/>
+        <field name="groups" eval="[(4, ref('purchase.group_purchase_user'))]"/>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_write" eval="1"/>
+        <field name="perm_create" eval="0"/>
+        <field name="perm_unlink" eval="0"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+    </record>
+    <record id="approval_product_line_purchase_user_rule" model="ir.rule">
+        <field name="name">Approval Product Line: Purchase User rule</field>
+        <field name="model_id" ref="approvals.model_approval_product_line"/>
+        <field name="groups" eval="[(4, ref('purchase.group_purchase_user'))]"/>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_write" eval="1"/>
+        <field name="perm_create" eval="0"/>
+        <field name="perm_unlink" eval="0"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+    </record>
+    <record id="approval_approver_purchase_user_rule" model="ir.rule">
+        <field name="name">Approval Approver: Purchase User rule</field>
+        <field name="model_id" ref="approvals.model_approval_approver"/>
+        <field name="groups" eval="[(4, ref('purchase.group_purchase_user'))]"/>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_write" eval="0"/>
+        <field name="perm_create" eval="0"/>
+        <field name="perm_unlink" eval="0"/>
+        <field name="domain_force">[(1, '=', 1)]</field>
+    </record>
+</odoo>

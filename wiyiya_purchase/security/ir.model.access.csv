@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+
+access_purchase_order_department_document_only,Purchase Order Full Access Department_Document_Only,purchase.model_purchase_order,wiyiya_purchase.group_purchase_user_department,1,1,1,1
+
+access_purchase_order_line_department_document_only,Purchase Order Line Full Access Department_Document_Only,purchase.model_purchase_order_line,wiyiya_purchase.group_purchase_user_department,1,1,1,1

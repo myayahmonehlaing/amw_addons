@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+
+    <data noupdate="0">
+        <!-- Rule updating on "All Journal Entries" of account.move model -->
+        <record id="account.account_move_see_all" model="ir.rule">
+            <field name="domain_force">['|',('department_id', '=', user.department_id.id),('department_id','=',False)]
+            </field>
+        </record>
+
+        <!-- Rule updating on "Readonly Move" of account.move model -->
+        <record id="account.account_move_rule_group_invoice" model="ir.rule">
+            <field name="domain_force">['|',('department_id', '=', user.department_id.id),('department_id','=',False)]
+            </field>
+        </record>
+
+        <!-- Rule updating on "All Journal Items" of account.move.line model && move_id is relation with account.move-->
+        <record id="account.account_move_line_see_all" model="ir.rule">
+            <field name="domain_force">['|',('move_id.department_id', '=', user.department_id.id),('move_id.department_id','=',False)]
+            </field>
+        </record>
+
+        <!--         Rule updating on "Readonly Move Line" of account.move.line model && move_id is relation with account.move-->
+        <record id="account.account_move_line_rule_group_invoice" model="ir.rule">
+            <field name="domain_force">['|',('move_id.department_id', '=', user.department_id.id),('move_id.department_id','=',False)]
+            </field>
+        </record>
+
+
+        <record id="group_account_cancel_permission" model="res.groups">
+            <field name="name">Cancel Permission</field>
+        </record>
+        <record id="group_account_reset_permission" model="res.groups">
+            <field name="name">Reset to Draft Permission</field>
+        </record>
+
+
+    </data>
+
+    <!-- This record rule will restrict users to see only the Account Invoice & Bill that belong to their
+    department. -->
+
+
+    <!--        <record id="account_move_rule_group_invoice" model="ir.rule">-->
+    <!--            <field name="domain_force">['|',('department_id', '=', user.department_id.id),('department_id', '=',False)]-->
+    <!--            </field>-->
+    <!--        </record>-->
+
+</odoo>

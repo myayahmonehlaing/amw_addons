@@ -1,0 +1,28 @@
+<odoo>
+    <!-- Adding department field in the sale order form -->
+    <record id="view_sale_order_form_inherit" model="ir.ui.view">
+        <field name="name">sale.order.form.inherit.department</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='payment_term_id']" position="after">
+                <group>
+                    <field name="department_id"
+                        placeholder="Select a Department" />
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Adding department field in the sale order tree view -->
+    <record id="view_order_tree_inherit_department" model="ir.ui.view">
+        <field name="name">sale.order.tree.inherit.department</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_quotation_tree_with_onboarding" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='user_id']" position="after">
+                <field name="department_id" string="Department" />
+            </xpath>
+        </field>
+    </record>
+</odoo>

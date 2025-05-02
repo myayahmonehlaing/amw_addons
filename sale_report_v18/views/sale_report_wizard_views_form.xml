@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="view_sale_report_wizard_form" model="ir.ui.view">
+        <field name="name">sale.report.wizard.form</field>
+        <field name="model">sale.report.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Sale Report">
+                <div class="o_form_sheet">
+                    <div class="row">
+                        <div class="col-6">
+                            <group>
+                                <field name="date_from" string="Start Date: "/>
+                            </group>
+                        </div>
+                        <div class="col-6">
+                            <group>
+                                <field name="date_to" string="End Date: "/>
+                            </group>
+                        </div>
+                    </div>
+                </div>
+                <footer>
+                    <button string="Print pdf" type="object" name="action_generate_pdf_report" class="oe_highlight"/>
+                    <button string="Print Excel" type="object" name="action_generate_xls_report" class="oe_highlight"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- Form view action to show date selection of start and end when the menu is clicked -->
+    <record id="action_sale_report_wizard" model="ir.actions.act_window">
+        <field name="name">Sale Report Wizard</field>
+        <field name="res_model">sale.report.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field> <!-- Opens in a popup -->
+    </record>
+</odoo>

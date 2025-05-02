@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="group_purchase_user_department" model="res.groups">
+        <field name="name">User's Department</field>
+        <field name="category_id" ref="base.module_category_inventory_purchase"/>
+    </record>
+
+    <!-- inherit ant appled field for change on the existing-->
+    <record id="purchase.group_purchase_user" model="res.groups">
+        <field name="implied_ids" eval="[(4,ref('group_purchase_user_department'))]"/>
+    </record>
+
+    <!-- This record rule will restrict users to see only the Purchase Orders that belong to their
+    department. -->
+    <record id="purchase_order_department_document_only_rule" model="ir.rule">
+        <field name="name">Purchase Order Access by Department</field>
+        <field name="model_id" ref="purchase.model_purchase_order" />
+        <field name="groups" eval="[(4, ref('group_purchase_user_department'))]" />
+        <field name="domain_force">['|',('department_id', '=', user.department_id.id),('department_id', '=', False)]</field>
+        <field name="perm_read">1</field>
+        <field name="perm_write">1</field>
+        <field name="perm_create">1</field>
+        <field name="perm_unlink">1</field>
+    </record>
+    <!-- This record rule will restrict users to see only the Purchase Order Line that belong to their
+    department. -->
+    <record id="purchase_order_line_department_document_only_rule" model="ir.rule">
+        <field name="name">Purchase Order Line Access by Department</field>
+        <field name="model_id" ref="purchase.model_purchase_order_line" />
+        <field name="groups" eval="[(4, ref('group_purchase_user_department'))]" />
+        <field name="domain_force">['|',('order_id.department_id', '=', user.department_id.id),('order_id.department_id', '=', False)]</field>
+        <field name="perm_read">1</field>
+        <field name="perm_write">1</field>
+        <field name="perm_create">1</field>
+        <field name="perm_unlink">1</field>
+    </record>
+</odoo>

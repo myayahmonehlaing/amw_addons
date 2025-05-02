@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!-- Action for the New Menu -->
+        <record id="action_contracts" model="ir.actions.act_window">
+            <field name="name">Contracts</field>
+            <field name="res_model">sale.contract</field>
+            <field name="view_mode">list,form</field>
+            <field name="context">{'search_default_my_quotation': 1}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Beat competitors with stunning quotations!
+                </p>
+                <p>
+                    Boost sales with online payments or signatures, upsells, and a great customer portal.
+                </p>
+                <a
+                        role="button"
+                        class="btn btn-secondary"
+                        href="https://www.odoo.com/documentation/master/_downloads/56a93429515b36105d952e1d2b802f9e/sample_quotation.pdf"
+                        target="_blank"
+                >
+                    Check a sample. It's clean!
+                </a>
+            </field>
+        </record>
+
+        <!--         Tree view of sale contract-->
+        <record id="sale_contract_tree" model="ir.ui.view">
+            <field name="name">sale.contract.list</field>
+            <field name="model">sale.contract</field>
+            <field name="arch" type="xml">
+                <list class="o_sale_order"
+                      string="Sales Contract Orders"
+                      sample="1"
+                      decoration-muted="state == 'cancel'">
+                    <header>
+                        <button name="%(sale.action_view_sale_advance_payment_inv)d"
+                                type="action"
+                                string="Create Invoices"
+                                class="btn-secondary"/>
+                    </header>
+
+                    <field name="name" string="Number" readonly="1" decoration-bf="1"/>
+                    <field name="user_id" string="Sale Person" readonly="1"/>
+                    <field name="date" optional="show" readonly="state in ['cancel', 'sale']"/>
+                    <field name="partner_id" readonly="1"/>
+
+                    <field name="company_id"
+                           groups="base.group_multi_company"
+                           optional="show"
+                           readonly="1"/>
+
+
+                    <field name="total"
+                           sum="Total Amount"
+                           widget="monetary"
+                           optional="show"/>
+
+                    <field name="state"
+                           decoration-success="state == 'contract'"
+                           decoration-info="state == 'draft'"
+                           decoration-primary="state == 'closed'"
+                           widget="badge"
+                           optional="hide"/>
+
+                </list>
+            </field>
+        </record>
+
+        <!--        Form view of the sale contract-->
+        <record id="view_sale_contract_form" model="ir.ui.view">
+            <field name="name">sale.contract.form</field>
+            <field name="model">sale.contract</field>
+            <field name="arch" type="xml">
+                <form string="Sales Contract">
+                    <header>
+                        <button name="action_confirm" class="btn-primary" string="Confirm" data-hotkey="q" type="object"
+                                context="{'validate_analytic': True}"
+                                invisible="state != 'draft'"/>
+                        <button name="action_close" type="object" string="Close"
+                                invisible="state not in ['draft', 'contract']" data-hotkey="x"/>
+                        <button name="action_draft"
+                                string="Reset to draft" type="object" context="{'validate_analytic': True}"
+                                invisible="state != 'closed'"/>
+                        <field name="state" widget="statusbar"
+                               statusbar_visible="draft,contract,closed,cancel"/>
+                    </header>
+
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button name="action_view_sale_order_for_contract"
+                                    type="object"
+                                    class="oe_stat_button"
+                                    icon="fa-pencil-square-o"
+                                    invisible="sale_order_count == 0">
+                                <field name="sale_order_count" widget="statinfo" string="Sale Orders"/>
+                            </button>
+                        </div>
+
+                        <!-- Header Section -->
+                        <h1>
+                            <field name="name" class="o_inline_edit" readonly="1" placeholder="Draft Contract"/>
+                        </h1>
+
+                        <!-- Main Section -->
+                        <group>
+                            <group>
+                                <field name="user_id" readonly="1"/>
+                                <field name="partner_id"
+                                       readonly="state in ['contract', 'closed']"/>
+                                <field name="pricelist_id"
+                                       readonly="state in ['contract', 'closed']"/>
+                            </group>
+                            <group>
+                                <field name="company_id" readonly='1'/>
+                                <field name="date" readonly="state in ['contract', 'closed']"/>
+                            </group>
+                        </group>
+
+                        <notebook>
+                            <page string="Contract Lines" name="line_ids">
+                                <field name="line_ids" widget="sol_o2m" mode="List,Form" readonly="state == 'closed'">
+                                    <form>
+                                        <group>
+                                            <div class="d-flex align-items-baseline">
+                                                <field name="product_id"/>
+                                            </div>
+                                            <field name="uom_id" string="UOM" optional="show"/>
+                                            <field name="quantity" string="Total quantity"/>
+                                            <field name="qty_to_sale" readonly="True" string="Sale quantity"/>
+                                            <field name="sale_quantity" readonly="True" string="Sold"/>
+                                            <field name="unit_price" widget="monetary"/>
+                                            <field name="subtotal" widget="monetary"/>
+                                        </group>
+                                    </form>
+                                    <list string="Contract Sale Lines"
+                                          limit="100"
+                                          editable="bottom">
+                                        <field name="product_id"/>
+                                        <field name="uom_id" string="UOM" optional="show"/>
+                                        <field name="quantity" string="Total quantity"/>
+                                        <field name="qty_to_sale" readonly="True" string="Sale quantity"/>
+                                        <field name="sale_quantity" readonly="True" string="Sold"/>
+                                        <field name="unit_price" widget="monetary"/>
+                                        <field name="subtotal" widget="monetary"/>
+                                    </list>
+                                </field>
+
+                                <!-- Total Field Section -->
+                                <group col="6" class="mt-2 mt-md-0">
+                                    <group class="oe_subtotal_footer d-flex order-0 order-lg-1 flex-column gap-0 gap-sm-3"
+                                           colspan="2">
+                                        <!-- Field with Label -->
+                                        <div class="d-flex align-items-center">
+                                            <!-- Label -->
+                                            <label for="total" class="o_form_label">Total</label>
+                                            <!-- Field -->
+                                            <field name="total"
+                                                   widget="monetary"
+                                                   readonly="1"
+                                                   class="ms-2"/>
+                                        </div>
+                                    </group>
+                                </group>
+
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <chatter/>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="action_healthcare_labs_view" model="ir.actions.act_window">
+        <field name="name">Labs</field>
+        <field name="res_model">healthcare.labs</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a Lab in Health Care Center
+            </p>
+        </field>
+    </record>
+
+    <record id="view_healthcare_labs_list" model="ir.ui.view">
+        <field name="name">res.healthcare.labs.list</field>
+        <field name="model">healthcare.labs</field>
+        <field name="arch" type="xml">
+            <list string="Labs" sample="1">
+                <field name="name" optional="show"/>
+                <field name="patient" optional="show"/>
+                <field name="provider" optional="hide"/>
+                <field name="date" optional="show"/>
+                <field name="results" optional="hide"/>
+                <field name="diagnosis" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_healthcare_labs_form" model="ir.ui.view">
+        <field name="name">res.healthcare.labs.form</field>
+        <field name="model">healthcare.labs</field>
+        <field name="arch" type="xml">
+            <form string="Labs">
+                <sheet>
+                    <group>
+                        <group>
+                            <div class="oe_title">
+                                <h1>
+                                    <field name="name"/>
+                                </h1>
+                            </div>
+                        </group>
+                        <group>
+                            <field name="date"/>
+                            <field name="patient"/>
+                            <field name="provider"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="results"/>
+                        <field name="diagnosis"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>

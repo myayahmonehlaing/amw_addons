@@ -1,0 +1,14 @@
+<odoo>
+    <!-- Group: Sale Contract Manager -->
+    <record id="group_sale_contract_manager" model="res.groups">
+        <field name="name">Sales Contract Manager</field>
+        <field name="category_id" ref="base.module_category_sales"/>
+    </record>
+
+    <!-- Group: Sale Contract User -->
+    <record id="group_sale_contract_user" model="res.groups">
+        <field name="name">Sales Contract User</field>
+        <field name="category_id" ref="base.module_category_sales"/>
+        <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+    </record>
+</odoo>

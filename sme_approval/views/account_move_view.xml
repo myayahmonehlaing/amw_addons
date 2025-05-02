@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+       <record id="account_move_form_inherit" model="ir.ui.view">
+            <field name="name">account.move.form.attachment.inherit</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_move_form"/>
+            <field name="arch" type="xml">
+                    <xpath expr="//form/sheet/notebook" position="inside">
+                        <page string="Attachments" name="attachment">
+                          <group>
+                            <group >
+                                 <field name="move_attachment_ids" invisible="not id "
+                                        widget="many2many_binary" no_label="1" readonly="state=='posted'" context="{'default_res_id': id}"/>
+                            </group>
+                          </group>
+                        </page>
+                  </xpath>
+
+            </field>
+       </record>
+</odoo>
