@@ -49,7 +49,7 @@ class HealthcareScheduleRulesLine(models.Model):
     duration_from = fields.Selection(string="From",selection=TIME_DURATION)
     duration_to = fields.Selection(string="To",selection=TIME_DURATION)
     number_of_appointment_per_day=fields.Integer(string="Number of appointments per day")
-    scheduled_rule=fields.Many2one("healthcare.schedule.rules",string="Schedule Rules")
+    rule_id=fields.Many2one("healthcare.schedule.rules",string="Schedule Rules")
 
     # ===== SQL Constraint =====#
 

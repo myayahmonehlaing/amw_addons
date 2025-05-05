@@ -10,7 +10,7 @@ class HealthcareResources(models.Model):
                        default="Room1",
                        store=True,
                        required=True)
-    facility=fields.Many2one("healthcare.facility",string="Facility",required=True)
+    facility_id = fields.Many2one("healthcare.facility",string="Facility",required=True)
 
     # ===== SQL Constraint =====#
 

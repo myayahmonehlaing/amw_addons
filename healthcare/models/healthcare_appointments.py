@@ -26,19 +26,19 @@ class HealthcareAppointments(models.Model):
         store=True,
         readonly=True,
     )
-    facility = fields.Many2one(
+    facility_id = fields.Many2one(
         "healthcare.facility", string="Facility", required=True, tracking=True
     )  # need to add compute #IM00001
     category = fields.Selection(
         selection=APPOINTMENT_CATEGORY, string="Category", required=True, tracking=True
     )
-    patient = fields.Many2one(
-        "healthcare.appointment.patients",
+    patient_id = fields.Many2one(
+        "healthcare.patients",
         string="Patient",
         required=True,
         tracking=True,
     )
-    provider = fields.Many2one(
+    provider_id = fields.Many2one(
         "healthcare.providers", string="Provider", required=True, tracking=True
     )
     status = fields.Many2one(
@@ -48,10 +48,10 @@ class HealthcareAppointments(models.Model):
         required=True,
         tracking=True,
     )
-    visit_type = fields.Many2one(
+    visit_type_id = fields.Many2one(
         "healthcare.visit.types", string="Visit Type", required=True, tracking=True
     )
-    resource = fields.Many2one(
+    resource_id = fields.Many2one(
         "healthcare.resources", string="Resource", required=True, tracking=True
     )
     appointment_mode = fields.Selection(
@@ -96,4 +96,4 @@ class HealthcareAppointments(models.Model):
     @api.onchange('visit_type')
     def _store_the_relative_value(self):
         if self.visit_type:
-            self.appointment_mode = self.visit_type.appointment_mode
+            self.appointment_mode = self.visit_type_id.appointment_mode

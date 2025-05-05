@@ -21,19 +21,19 @@ class HealthcareBilling(models.Model):
     name = fields.Char(string="Name", copy=False, default=lambda self: self._compute_name(),
                        store=True,
                        readonly=True)  # need to add compute #B00001
-    appointment = fields.Many2one("healthcare.appointment", string="Appointment",required=True, tracking=True, )
-    patient = fields.Many2one("healthcare.appointment.patients", string="Patient",required=True, tracking=True, )
-    age = fields.Char(string="Age", related='patient.age', readonly=True, tracking=True, )
-    sex = fields.Selection(selection=APPOINTMENT_GENDER, related='patient.gender', string="SEX", tracking=True, )
-    facility = fields.Many2one("healthcare.facility", string="Facility",required=True, tracking=True, )
-    provider = fields.Many2one("healthcare.providers", string="Provider",required=True, tracking=True, )
+    appointment_id = fields.Many2one("healthcare.appointment", string="Appointment",required=True, tracking=True, )
+    patient_id = fields.Many2one("healthcare.patients", string="Patient",required=True, tracking=True, )
+    age = fields.Char(string="Age", related='patient_id.age', readonly=True, tracking=True, )
+    sex = fields.Selection(selection=APPOINTMENT_GENDER, related='patient_id.gender', string="Sex", tracking=True, )
+    facility_id = fields.Many2one("healthcare.facility", string="Facility",required=True, tracking=True, )
+    provider_id = fields.Many2one("healthcare.providers", string="Provider",required=True, tracking=True, )
     date = fields.Date(string="Date", tracking=True, default=fields.Date.today,required=True)
-    procedure = fields.One2many("healthcare.billing.procedures", "billing", string="Procedure",required=True, tracking=True)
+    procedure_line_ids = fields.One2many("healthcare.billing.procedures", "billing_id", string="Procedure",required=True,)
     procedure_total = fields.Monetary(string="Procedure Total", compute="_compute_procedure_total",
                                       currency_field="currency")
-    product = fields.One2many("healthcare.billing.products", "billing", string="Product", required=True, tracking=True)
+    product_line_ids = fields.One2many("healthcare.billing.products", "billing_id", string="Product", required=True )
     product_total = fields.Monetary(string="Product Total", compute="_compute_product_total", currency_field="currency")
-    total_amount = fields.Monetary(string="Total Amount", compute="_compute_total_amount", currency_field="currency")
+    total_amount = fields.Monetary(string="Total Amount", compute="_compute_total_amount", currency_field="currency" , tracking=True)
     amount_due = fields.Monetary(string="Amount Due", compute="_compute_amount_due", currency_field="currency")
     state = fields.Selection(selection=APPOINTMENT_STATE, string="State", store=True, tracking=True, default='draft')
     currency = fields.Many2one("res.currency", string="Currency", default=lambda self: self.env.company.currency_id,
@@ -61,26 +61,26 @@ class HealthcareBilling(models.Model):
         # Format the new billing number as Bxxxxx
         return f"B{str(new_number).zfill(5)}"
 
-    @api.onchange('appointment')
+    @api.onchange('appointment_id')
     def _store_the_relative_value(self):
-        if self.appointment:
+        if self.appointment_id:
             # Fetch the related patient, facility, and provider from the appointment
-            self.patient = self.appointment.patient
-            self.facility = self.appointment.facility
-            self.provider = self.appointment.provider
+            self.patient_id = self.appointment_id.patient_id
+            self.facility_id = self.appointment_id.facility_id
+            self.provider_id = self.appointment_id.provider_id
 
 
-    @api.depends('procedure')
+    @api.depends('procedure_line_ids')
     def _compute_procedure_total(self):
         total = 0.0
-        for procedure_list in self.procedure:
+        for procedure_list in self.procedure_line_ids:
             total += procedure_list.amount
         self.procedure_total = total
 
-    @api.depends('product')
+    @api.depends('product_line_ids')
     def _compute_product_total(self):
         total = 0
-        for product_list in self.product:
+        for product_list in self.product_line_ids:
             total += product_list.amount
         self.product_total = total
 
@@ -100,31 +100,31 @@ class HealthcareBilling(models.Model):
             'name': 'Procedures',
         }))
         # Add procedure lines
-        for proc in self.procedure:
-            if proc.description:
+        for proc in self.procedure_line_ids:
+            if proc.product_id:
                 order_lines.append((0, 0, {
-                    'product_id': proc.description.id,
+                    'product_id': proc.product_id.id,
                     'product_uom_qty': proc.qty,
-                    'price_unit': proc.price,
+                    'price_unit': proc.unit_price,
                 }))
         order_lines.append((0, 0, {
             'display_type': 'line_section',
             'name': 'Products',
         }))
         # Add product lines
-        for prod in self.product:
-            if prod.product:
+        for prod in self.product_line_ids:
+            if prod.product_id:
                 order_lines.append((0, 0, {
-                    'product_id': prod.product.id,
+                    'product_id': prod.product_id.id,
                     'product_uom_qty': prod.qty,
-                    'price_unit': prod.price,
+                    'price_unit': prod.unit_price,
                 }))
 
         # Create Sale Order
         sale_order = self.env['sale.order'].create({
-            'partner_id': self.patient.partner.id,
+            'partner_id': self.patient_id.partner_id.id,
             'date_order': fields.Date.today(),
-            'warehouse_id': self.facility.warehouse.id,
+            'warehouse_id': self.facility_id.warehouse_id.id,
             'order_line': order_lines,
         })
 

@@ -18,8 +18,8 @@
         <field name="arch" type="xml">
             <list string="Images" sample="1">
                 <field name="name" optional="show"/>
-                <field name="patient" optional="show"/>
-                <field name="provider" optional="hide"/>
+                <field name="patient_id" optional="show"/>
+                <field name="provider_id" optional="hide"/>
                 <field name="date" optional="show"/>
             </list>
         </field>
@@ -41,8 +41,8 @@
                             <field name="date"/>
                         </group>
                         <group>
-                            <field name="patient"/>
-                            <field name="provider"/>
+                            <field name="patient_id"/>
+                            <field name="provider_id"/>
                         </group>
                     </group>
                     <notebook>

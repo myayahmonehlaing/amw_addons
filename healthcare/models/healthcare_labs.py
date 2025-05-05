@@ -9,8 +9,8 @@ class HealthcareLabs(models.Model):
     name = fields.Char( string="Name",copy=False, default=lambda self: self._compute_name(),
                        store=True,
                        readonly=True) #need to add compute #LB00001
-    patient=fields.Many2one("healthcare.appointment.patients",string="Patient",required=True)
-    provider=fields.Many2one("healthcare.providers",string="Provider",required=True)
+    patient_id=fields.Many2one("healthcare.patients",string="Patient",required=True)
+    provider_id=fields.Many2one("healthcare.providers",string="Provider",required=True)
     date=fields.Date(string="Date",required=True)
     results=fields.Text(string="Results",copy=True)
     diagnosis=fields.Text(string="Diagnosis",copy=True)

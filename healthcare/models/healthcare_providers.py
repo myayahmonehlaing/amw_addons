@@ -8,6 +8,8 @@ class HealthcareProviders(models.Model):
     name = fields.Char(string="Name",
                        store=True,
                        required=True)
+    specialty_id = fields.Many2one("healthcare.providers.specialty", string="Specialty",required=True)
+    qualifications = fields.Text('Qualifications')
     visit_type = fields.Many2one("healthcare.visit.types", string="Visit Type",required=True)
     email = fields.Char(string="Email",required=True)
     phone = fields.Char(string="Phone",required=True)

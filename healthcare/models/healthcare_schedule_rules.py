@@ -6,17 +6,17 @@ class HealthcareScheduleRules(models.Model):
 
     # === FIELDS ===#
     name=fields.Char(string="Name",compute="_compute_name")
-    facility = fields.Many2one("healthcare.facility", string="Facility",required=True)
-    provider = fields.Many2one("healthcare.providers", string="Provider",required=True)
-    visit_types = fields.Many2one("healthcare.visit.types", string="Visit Types",required=True)
-    scheduled_rules_line = fields.One2many("healthcare.schedule.rules.line","scheduled_rule", string="Scheduled Rules Lines")
+    facility_id = fields.Many2one("healthcare.facility", string="Facility",required=True)
+    provider_id = fields.Many2one("healthcare.providers", string="Provider",required=True)
+    visit_type_id = fields.Many2one("healthcare.visit.types", string="Visit Types",required=True)
+    scheduled_rules_line = fields.One2many("healthcare.schedule.rules.line","rule_id", string="Scheduled Rules Lines")
     # ===== SQL Constraint =====#
 
     # ===== method =======#
-    @api.depends("provider", "facility")
+    @api.depends("provider_id", "facility_id")
     def _compute_name(self):
         for record in self:
-            facility_name = record.facility.name if record.facility else ''
-            provider_name = record.provider.name if record.provider else ''
+            facility_name = record.facility_id.name if record.facility_id else ''
+            provider_name = record.provider_id.name if record.provider_id else ''
             record.name = f"{provider_name} - {facility_name}"
 

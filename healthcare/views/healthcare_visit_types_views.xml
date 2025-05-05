@@ -18,7 +18,7 @@
         <field name="arch" type="xml">
             <list string="Visit Types" sample="1">
                 <field name="name" optional="show"/>
-                <field name="color" optional="show"/>
+                <field name="color" optional="show" widget="color"/>
                 <field name="appointment_mode" optional="show"/>
                 <field name="charge" optional="show"/>
             </list>
@@ -37,7 +37,7 @@
                         </h1>
                     </div>
                     <group>
-                        <field name="color"/>
+                        <field name="color" widget="color"/>
                         <field name="appointment_mode" widget="radio" options="{'horizontal': true}"/>
                         <field name="charge"/>
                     </group>

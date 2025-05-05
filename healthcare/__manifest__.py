@@ -1,6 +1,7 @@
 {
-    "name": "Charm EHR",
-    "author": "smei",
+    "name": "Health Care Management",
+    'author': "SME Intellect Co. Ltd",
+    'website': "https://www.smeintellect.com/",
     "installed_version": "1.0",
     "category": "All",
     "license": 'LGPL-3',
@@ -20,18 +21,19 @@
         # Views
         "views/healthcare_facility_views.xml",
         "views/healthcare_resources_views.xml",
+        "views/healthcare_providers_specialty_views.xml",
         "views/healthcare_providers_views.xml",
         "views/healthcare_visit_types_views.xml",
         "views/healthcare_schedule_rules_views.xml",
         "views/healthcare_appointment_status_views.xml",
-        "views/healthcare_appointment_status_patients.xml",
+        "views/healthcare_patients.xml",
         "views/healthcare_appointments_views.xml",
         "views/healthcare_images_views.xml",
         "views/healthcare_billing_views.xml",
         "views/healthcare_labs_views.xml",
-        "views/healthcare_appointment_status_patients.xml",
-        "views/healthcare_appointment_procedures_views.xml",
-        "views/healthcare_appointment_product_views.xml",
+        "views/healthcare_patients.xml",
+        "views/healthcare_procedures_views.xml",
+        "views/healthcare_product_views.xml",
         "views/res_config_settings_views.xml",
 
         # MenuItems

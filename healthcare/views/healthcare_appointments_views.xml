@@ -17,12 +17,12 @@
         <field name="model">healthcare.appointment</field>
         <field name="arch" type="xml">
             <list string="Appointments" sample="1">
-                <field name="facility" optional="show"/>
+                <field name="facility_id" optional="show"/>
                 <field name="category" optional="show"/>
-                <field name="patient" optional="hide"/>
-                <field name="provider" optional="show"/>
-                <field name="visit_type" optional="show"/>
-                <field name="resource" optional="show"/>
+                <field name="patient_id" optional="hide"/>
+                <field name="provider_id" optional="show"/>
+                <field name="visit_type_id" optional="show"/>
+                <field name="resource_id" optional="show"/>
                 <field name="appointment_mode" optional="show"/>
                 <field name="date" optional="show"/>
                 <field name="reason" optional="show"/>
@@ -48,12 +48,12 @@
                     </div>
                     <group>
                         <group>
-                            <field name="facility"/>
+                            <field name="facility_id"/>
                             <field name="category" widget="radio" options="{'horizontal': true}"/>
-                            <field name="patient"/>
-                            <field name="provider"/>
-                            <field name="visit_type"/>
-                            <field name="resource"/>
+                            <field name="patient_id"/>
+                            <field name="provider_id"/>
+                            <field name="visit_type_id"/>
+                            <field name="resource_id"/>
                         </group>
                         <group>
                             <field name="date"/>

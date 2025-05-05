@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="healthcare_product_template_action" model="ir.actions.act_window">
+        <field name="name">Services</field>
+        <field name="res_model">product.template</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('type', '=', 'consu')]</field>
+    <field name="context">{'default_type': 'consu'}</field>
+    </record>
+</odoo>

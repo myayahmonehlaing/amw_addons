@@ -6,7 +6,7 @@
         <field name="res_model">res.config.settings</field>
         <field name="view_mode">form</field>
         <field name="target">inline</field>
-        <field name="context">{'module' : 'charm_ehr', 'bin_size': False}</field>
+        <field name="context">{'module' : 'healthcare', 'bin_size': False}</field>
     </record>
 
     <!-- Inheriting the config setting and add the values for printer-->
@@ -19,9 +19,9 @@
         <field name="inherit_id" ref="base.res_config_settings_view_form"/>
         <field name="arch" type="xml">
             <xpath expr="//form" position="inside">
-                <app string="Healthcare" name="charm_ehr">
+                <app string="Healthcare" name="healthcare">
                     <block title="Healthcare"
-                           name="charm_ehr_healthcare_setting_container">
+                           name="healthcare_healthcare_setting_container">
                         <setting id="healthcare_control_setting"
                                  help="Check to auto create invoice and make payment for validate"
                                  title="Control Key" string="Control Key">

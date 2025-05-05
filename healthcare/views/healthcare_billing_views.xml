@@ -18,10 +18,10 @@
         <field name="arch" type="xml">
             <list string="Billings" sample="1">
                 <field name="name" optional="show"/>
-                <field name="appointment" optional="show"/>
-                <field name="patient" optional="show"/>
-                <field name="facility" optional="show"/>
-                <field name="provider" optional="show"/>
+                <field name="appointment_id" optional="show"/>
+                <field name="patient_id" optional="show"/>
+                <field name="facility_id" optional="show"/>
+                <field name="provider_id" optional="show"/>
                 <field name="age" optional="show"/>
                 <field name="sex" optional="show"/>
                 <field name="date" optional="show"/>
@@ -63,22 +63,23 @@
                     </div>
                     <group>
                         <group>
-                            <field name="appointment"/>
-                            <field name="patient"/>
-                            <field name="facility"/>
-                            <field name="provider"/>
+                            <field name="appointment_id"/>
+                            <field name="patient_id"/>
+                            <field name="age"/>
+                            <field name="sex"/>
+
                         </group>
                         <group>
                             <field name="date"/>
-                            <field name="age"/>
-                            <field name="sex"/>
+                            <field name="facility_id"/>
+                            <field name="provider_id"/>
                             <field name="currency"/>
                         </group>
                     </group>
                     <notebook>
-                        <page string="Billing Procedures" name="procedures">
+                        <page string="Procedures" name="procedures">
                             <field
-                                    name="procedure"
+                                    name="procedure_line_ids"
                                     widget="sol_o2m"
                                     mode="list">
                                 <list
@@ -86,9 +87,9 @@
                                         editable="bottom"
                                         limit="200"
                                 >
-                                    <field name="description"/>
+                                    <field name="product_id"/>
                                     <field name="qty"/>
-                                    <field name="price"/>
+                                    <field name="unit_price"/>
                                     <field name="amount"/>
                                 </list>
                             </field>
@@ -102,9 +103,9 @@
                         </page>
                     </notebook>
                     <notebook>
-                        <page string="Billing Products" name="products">
+                        <page string="Products" name="products">
                             <field
-                                    name="product"
+                                    name="product_line_ids"
                                     widget="sol_o2m"
                                     mode="list">
                                 <list
@@ -112,9 +113,9 @@
                                         editable="bottom"
                                         limit="200"
                                 >
-                                    <field name="product"/>
+                                    <field name="product_id"/>
                                     <field name="qty"/>
-                                    <field name="price"/>
+                                    <field name="unit_price"/>
                                     <field name="amount"/>
                                 </list>
                             </field>
@@ -153,9 +154,9 @@
                         </div>
                         <footer class="align-items-end">
                             <div class="d-flex flex-wrap gap-1 text-muted text-nowrap">
-                                <field name="patient"/>
-                                <field name="provider"/>
-                                <field name="appointment"/>
+                                <field name="patient_id"/>
+                                <field name="provider_id"/>
+                                <field name="appointment_id"/>
                             </div>
                             <field name="state"
                                    widget="label_selection"

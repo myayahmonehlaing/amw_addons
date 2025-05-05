@@ -11,7 +11,7 @@ class HealthcareFacility(models.Model):
                        store=True,
                        copy=True,
                        required=True)
-    warehouse=fields.Many2one("stock.warehouse",string="Warehouse",required=True)
+    warehouse_id =fields.Many2one("stock.warehouse",string="Warehouse",required=True)
 
     # Address fields
     street = fields.Char('Street', readonly=False, store=True)

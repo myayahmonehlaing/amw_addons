@@ -18,7 +18,7 @@
         <field name="arch" type="xml">
             <list string="Resources" sample="1">
                 <field name="name" optional="show"/>
-                <field name="facility" optional="show"/>
+                <field name="facility_id" optional="show"/>
             </list>
         </field>
     </record>
@@ -35,7 +35,7 @@
                         </h1>
                     </div>
                     <group>
-                        <field name="facility"/>
+                        <field name="facility_id"/>
                     </group>
                 </sheet>
             </form>
