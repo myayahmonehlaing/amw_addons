@@ -1,0 +1,207 @@
+<odoo>
+
+    <!--    for healthcare appointment status-->
+    <!-- Record Rule for healthcare appointment status -->
+    <record id="healthcare_appointment_status_multi_company_rule" model="ir.rule">
+        <field name="name">Healthcare Appointment Status multi-company</field>
+        <field name="model_id" ref="model_healthcare_appointment_status"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+    <!-- Record Rule for healthcare appointment status (Users) -->
+    <record id="healthcare_appointment_status_multi_company_rule_for_user" model="ir.rule">
+        <field name="name">Healthcare Appointment Status Multi-Company Rule for Users</field>
+        <field name="model_id" ref="model_healthcare_appointment_status"/>
+        <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+        <field name="domain_force">
+            ['|', ('company_id', '=', user.company_id.id), ('company_id', 'in', user.company_ids.ids)]
+        </field>
+    </record>
+
+    <!--    for healthcare appointment-->
+    <!-- Record Rule for healthcare appointment -->
+    <record id="healthcare_appointment_multi_company_rule" model="ir.rule">
+        <field name="name">Healthcare Appointment multi-company</field>
+        <field name="model_id" ref="model_healthcare_appointment"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+    <!-- Record Rule for healthcare appointment (Users) -->
+    <record id="healthcare_appointment_multi_company_rule_for_user" model="ir.rule">
+        <field name="name">Healthcare Appointment Multi-Company Rule for Users</field>
+        <field name="model_id" ref="model_healthcare_appointment"/>
+        <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+        <field name="domain_force">
+            ['|', ('company_id', '=', user.company_id.id), ('company_id', 'in', user.company_ids.ids)]
+        </field>
+    </record>
+
+    <!--    for healthcare billing procedures-->
+    <!-- Record Rule for healthcare billing procedures -->
+    <record id="healthcare_billing_procedures_multi_company_rule" model="ir.rule">
+        <field name="name">Healthcare Billing Procedures multi-company</field>
+        <field name="model_id" ref="model_healthcare_billing_procedures"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+    <!-- Record Rule for healthcare billing procedures (Users) -->
+    <record id="healthcare_billing_procedures_multi_company_rule_for_user" model="ir.rule">
+        <field name="name">Healthcare Billing Procedures Multi-Company Rule for Users</field>
+        <field name="model_id" ref="model_healthcare_billing_procedures"/>
+        <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+        <field name="domain_force">
+            ['|', ('company_id', '=', user.company_id.id), ('company_id', 'in', user.company_ids.ids)]
+        </field>
+    </record>
+
+    <!--    for healthcare billing products-->
+    <!-- Record Rule for healthcare billing products -->
+    <record id="healthcare_billing_products_multi_company_rule" model="ir.rule">
+        <field name="name">Healthcare Billing Products multi-company</field>
+        <field name="model_id" ref="model_healthcare_billing_products"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+    <!-- Record Rule for healthcare billing products (Users) -->
+    <record id="healthcare_billing_products_multi_company_rule_for_user" model="ir.rule">
+        <field name="name">Healthcare Billing Products Multi-Company Rule for Users</field>
+        <field name="model_id" ref="model_healthcare_billing_products"/>
+        <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+        <field name="domain_force">
+            ['|', ('company_id', '=', user.company_id.id), ('company_id', 'in', user.company_ids.ids)]
+        </field>
+    </record>
+
+    <!--    for healthcare billings-->
+    <!-- Record Rule for healthcare billings -->
+    <record id="healthcare_billings_multi_company_rule" model="ir.rule">
+        <field name="name">Healthcare Billings multi-company</field>
+        <field name="model_id" ref="model_healthcare_billing"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+    <!-- Record Rule for healthcare billings (Users) -->
+    <record id="healthcare_billings_multi_company_rule_for_user" model="ir.rule">
+        <field name="name">Healthcare Billings Multi-Company Rule for Users</field>
+        <field name="model_id" ref="model_healthcare_billing"/>
+        <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+        <field name="domain_force">
+            ['|', ('company_id', '=', user.company_id.id), ('company_id', 'in', user.company_ids.ids)]
+        </field>
+    </record>
+
+    <!--    for healthcare facility-->
+    <!-- Record Rule for healthcare facility -->
+    <record id="healthcare_facility_multi_company_rule" model="ir.rule">
+        <field name="name">Healthcare Facility multi-company</field>
+        <field name="model_id" ref="model_healthcare_facility"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+    <!-- Record Rule for healthcare facility (Users) -->
+    <record id="healthcare_facility_multi_company_rule_for_user" model="ir.rule">
+        <field name="name">Healthcare Facility Multi-Company Rule for Users</field>
+        <field name="model_id" ref="model_healthcare_facility"/>
+        <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+        <field name="domain_force">
+            ['|', ('company_id', '=', user.company_id.id), ('company_id', 'in', user.company_ids.ids)]
+        </field>
+    </record>
+
+    <!--    for healthcare resource-->
+    <!-- Record Rule for healthcare resources -->
+    <record id="healthcare_resources_multi_company_rule" model="ir.rule">
+        <field name="name">Healthcare Resources multi-company</field>
+        <field name="model_id" ref="model_healthcare_resources"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+    <!-- Record Rule for healthcare resources (Users) -->
+    <record id="healthcare_resources_multi_company_rule_for_user" model="ir.rule">
+        <field name="name">Healthcare Resources Multi-Company Rule for Users</field>
+        <field name="model_id" ref="model_healthcare_resources"/>
+        <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+        <field name="domain_force">
+            ['|', ('company_id', '=', user.company_id.id), ('company_id', 'in', user.company_ids.ids)]
+        </field>
+    </record>
+
+    <!--    for healthcare visit types-->
+    <!-- Record Rule for healthcare visit types -->
+    <record id="healthcare_visit_types_multi_company_rule" model="ir.rule">
+        <field name="name">Healthcare Visit Types multi-company</field>
+        <field name="model_id" ref="model_healthcare_visit_types"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+    <!-- Record Rule for healthcare visit types (Users) -->
+    <record id="healthcare_visit_types_multi_company_rule_for_user" model="ir.rule">
+        <field name="name">Healthcare Visit Types Multi-Company Rule for Users</field>
+        <field name="model_id" ref="model_healthcare_visit_types"/>
+        <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+        <field name="domain_force">
+            ['|', ('company_id', '=', user.company_id.id), ('company_id', 'in', user.company_ids.ids)]
+        </field>
+    </record>
+
+    <!--    for healthcare providers-->
+    <!-- Record Rule for healthcare providers -->
+    <record id="healthcare_providers_multi_company_rule" model="ir.rule">
+        <field name="name">Healthcare Providers multi-company</field>
+        <field name="model_id" ref="model_healthcare_providers"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+    <!-- Record Rule for healthcare providers (Users) -->
+    <record id="healthcare_providers_multi_company_rule_for_user" model="ir.rule">
+        <field name="name">Healthcare Providers Multi-Company Rule for Users</field>
+        <field name="model_id" ref="model_healthcare_providers"/>
+        <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+        <field name="domain_force">
+            ['|', ('company_id', '=', user.company_id.id), ('company_id', 'in', user.company_ids.ids)]
+        </field>
+    </record>
+
+    <!--    for healthcare schedule rules-->
+    <!-- Record Rule for healthcare schedule rules -->
+    <record id="healthcare_schedule_rules_multi_company_rule" model="ir.rule">
+        <field name="name">Healthcare Schedule Rules multi-company</field>
+        <field name="model_id" ref="model_healthcare_schedule_rules"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+    <!-- Record Rule for healthcare schedule rules (Users) -->
+    <record id="healthcare_schedule_rules_multi_company_rule_for_user" model="ir.rule">
+        <field name="name">Healthcare Schedule Rules Multi-Company Rule for Users</field>
+        <field name="model_id" ref="model_healthcare_schedule_rules"/>
+        <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+        <field name="domain_force">
+            ['|', ('company_id', '=', user.company_id.id), ('company_id', 'in', user.company_ids.ids)]
+        </field>
+    </record>
+
+    <!--    for healthcare lab-->
+    <!-- Record Rule for healthcare lab -->
+    <record id="healthcare_labs_multi_company_rule" model="ir.rule">
+        <field name="name">Healthcare Labs multi-company</field>
+        <field name="model_id" ref="model_healthcare_labs"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+    <!-- Record Rule for healthcare lab (Users) -->
+    <record id="healthcare_labs_multi_company_rule_for_user" model="ir.rule">
+        <field name="name">Healthcare Labs Multi-Company Rule for Users</field>
+        <field name="model_id" ref="model_healthcare_labs"/>
+        <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+        <field name="domain_force">
+            ['|', ('company_id', '=', user.company_id.id), ('company_id', 'in', user.company_ids.ids)]
+        </field>
+    </record>
+
+    <!--    for healthcare image-->
+    <!-- Record Rule for healthcare images -->
+    <record id="healthcare_images_multi_company_rule" model="ir.rule">
+        <field name="name">Healthcare images multi-company</field>
+        <field name="model_id" ref="model_healthcare_images"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+    <!-- Record Rule for healthcare images (Users) -->
+    <record id="healthcare_images_multi_company_rule_for_user" model="ir.rule">
+        <field name="name">Healthcare images Multi-Company Rule for Users</field>
+        <field name="model_id" ref="model_healthcare_images"/>
+        <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+        <field name="domain_force">
+            ['|', ('company_id', '=', user.company_id.id), ('company_id', 'in', user.company_ids.ids)]
+        </field>
+    </record>
+
+</odoo>

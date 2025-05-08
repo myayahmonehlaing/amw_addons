@@ -1,10 +1,53 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
 
+    <record id="view_healthcare_appointment_search" model="ir.ui.view">
+        <field name="name">res.healthcare.appointment.search</field>
+        <field name="model">healthcare.appointment</field>
+        <field name="arch" type="xml">
+            <search string="Search Healthcare Appointment">
+                <field name="name"/>
+                <field name="facility_id"/>
+                <field name="category"/>
+                <field name="patient_id"/>
+                <field name="provider_id"/>
+                <field name="visit_type_id"/>
+                <field name="resource_id"/>
+                <field name="status_id"/>
+                <field name="reason"/>
+                <field name="message_to_patient"/>
+                <separator/>
+                <filter name="appointment_mode" string="In Person"
+                        domain="[('appointment_mode', '=', 'in_person')]"/>
+                <filter name="appointment_mode" string="Phone Call" domain="[('appointment_mode', '=', 'phone_call')]"/>
+                <filter name="appointment_mode" string="Video Consult"
+                        domain="[('appointment_mode', '=', 'video_consult')]"/>
+                <separator/>
+                <filter name="category" string="Appointment" domain="[('category', '=', 'appointment')]"/>
+                <filter name="category" string="Waiting List" domain="[('category', '=', 'waiting_list')]"/>
+                <filter name="category" string="Other Event" domain="[('category', '=', 'other_event')]"/>
+                <separator/>
+
+                <filter string="Appointment Date" name="date" date="date"/>
+                <group expand="0" string="Group By">
+                    <filter string="Facility" name="facility_id" domain="[]" context="{'group_by': 'facility_id'}"/>
+                    <filter string="Patient" name="patient_id" domain="[]" context="{'group_by': 'patient_id'}"/>
+                    <filter string="Provider" name="provider_id" domain="[]" context="{'group_by': 'provider_id'}"/>
+                    <filter string="Resource" name="resource_id" domain="[]" context="{'group_by': 'resource_id'}"/>
+                    <filter string="Visit Type" name="visit_type_id" domain="[]"
+                            context="{'group_by': 'visit_type_id'}"/>
+                    <separator/>
+                    <filter string="Appointment Date" name="date" domain="[]" context="{'group_by':'date'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
     <record id="action_healthcare_appointments_view" model="ir.actions.act_window">
         <field name="name">Appointment</field>
         <field name="res_model">healthcare.appointment</field>
         <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="healthcare.view_healthcare_appointment_search"/>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
                 Create a appointment in Health Care Center
@@ -17,6 +60,7 @@
         <field name="model">healthcare.appointment</field>
         <field name="arch" type="xml">
             <list string="Appointments" sample="1">
+                <field name="name" optional="show"/>
                 <field name="facility_id" optional="show"/>
                 <field name="category" optional="show"/>
                 <field name="patient_id" optional="hide"/>
@@ -25,9 +69,10 @@
                 <field name="resource_id" optional="show"/>
                 <field name="appointment_mode" optional="show"/>
                 <field name="date" optional="show"/>
-                <field name="reason" optional="show"/>
-                <field name="message_to_patient" optional="show"/>
-                <field name="status" optional="show"/>
+                <field name="reason" optional="hide"/>
+                <field name="message_to_patient" optional="hide"/>
+                <field name="company_id" optional="show"/>
+                <field name="status_id" optional="show"/>
             </list>
         </field>
     </record>
@@ -38,7 +83,7 @@
         <field name="arch" type="xml">
             <form string="Appointments">
                 <header>
-                    <field name="status" widget="statusbar" options="{'clickable': '1'}"/>
+                    <field name="status_id" widget="statusbar" options="{'clickable': '1'}"/>
                 </header>
                 <sheet>
                     <div class="oe_title">
@@ -57,6 +102,7 @@
                         </group>
                         <group>
                             <field name="date"/>
+                            <field name="company_id"/>
                             <field name="appointment_mode" widget="radio" options="{'horizontal': true}"/>
                             <field name="reason"/>
                             <field name="message_to_patient"/>
@@ -67,34 +113,4 @@
             </form>
         </field>
     </record>
-
-<!--    <record id="view_healthcare_appointment_kanban" model="ir.ui.view">-->
-<!--        <field name="name">res.healthcare.appointment.kanban</field>-->
-<!--        <field name="model">healthcare.appointment</field>-->
-<!--        <field name="arch" type="xml">-->
-<!--            <kanban class="o_kanban_mobile" sample="1" quick_create="false">-->
-<!--                <progressbar field="activity_state"-->
-<!--                             colors='{"planned": "success", "today": "warning", "overdue": "danger"}'/>-->
-<!--                <templates>-->
-<!--                    <t t-name="card">-->
-<!--                        <div class="d-flex align-items-baseline mb-2">-->
-<!--                            <field name="name" class="fw-bolder fs-5 me-2"/>-->
-<!--                            <field name="date" class="fw-bolder ms-auto flex-shrink-0"/>-->
-<!--                        </div>-->
-<!--                        <footer class="align-items-end">-->
-<!--                            <div class="d-flex flex-wrap gap-1 text-muted text-nowrap">-->
-<!--                                <field name="name"/>-->
-<!--                                <field name="date_order"/>-->
-<!--                                <field name="activity_ids" widget="kanban_activity"/>-->
-<!--                            </div>-->
-<!--                            <field name="state"-->
-<!--                                   widget="label_selection"-->
-<!--                                   options="{'classes': {'draft': 'info', 'cancel': 'default', 'sale': 'success'}}"-->
-<!--                                   class="ms-auto"/>-->
-<!--                        </footer>-->
-<!--                    </t>-->
-<!--                </templates>-->
-<!--            </kanban>-->
-<!--        </field>-->
-<!--    </record>-->
 </odoo>

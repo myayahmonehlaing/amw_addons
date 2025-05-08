@@ -12,7 +12,10 @@ class HealthcareBillingProducts(models.Model):
     unit_price=fields.Float(string="Unit Price",required=True)
     amount=fields.Float(string="Amount",compute="_compute_amount")
     billing_id = fields.Many2one("healthcare.billing", string="Billing")
-
+    company_id = fields.Many2one(
+        comodel_name='res.company',
+        required=True, index=True,
+        default=lambda self: self.env.company)
 
     # ===== SQL Constraint =====#
 

@@ -1,10 +1,41 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
 
+    <record id="view_healthcare_facility_search" model="ir.ui.view">
+        <field name="name">res.healthcare.facility.search</field>
+        <field name="model">healthcare.facility</field>
+        <field name="arch" type="xml">
+            <search string="Search Healthcare Facility">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="warehouse_id"/>
+                <field name="street"/>
+                <field name="street2"/>
+                <field name="zip"/>
+                <field name="city"/>
+                <field name="state_id"/>
+                <field name="country_id"/>
+                <separator/>
+
+                <group expand="0" string="Group By">
+                    <filter string="Warehouse" name="warehouse_id" domain="[]" context="{'group_by': 'warehouse_id'}"/>
+                    <filter string="Street" name="street" domain="[]" context="{'group_by': 'street'}"/>
+                    <filter string="Street2" name="street2" domain="[]" context="{'group_by': 'street2'}"/>
+                    <filter string="Zip" name="zip" domain="[]" context="{'group_by': 'zip'}"/>
+                    <filter string="City" name="city" domain="[]" context="{'group_by': 'city'}"/>
+                    <filter string="State" name="state_id" domain="[]" context="{'group_by': 'state_id'}"/>
+                    <filter string="Country" name="country_id" domain="[]" context="{'group_by': 'country_id'}"/>
+                    <separator/>
+                </group>
+            </search>
+        </field>
+    </record>
+
     <record id="action_healthcare_facility_view" model="ir.actions.act_window">
         <field name="name">Facility</field>
         <field name="res_model">healthcare.facility</field>
         <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="healthcare.view_healthcare_facility_search"/>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
                 Create a Facility in Health Care Center
@@ -25,6 +56,7 @@
                     </div>
                      <group>
                         <group>
+                            <field name="company_id"/>
                             <field name="code"/>
                             <field name="warehouse_id"/>
                         </group>
@@ -66,6 +98,7 @@
                 <field name="state_id" optional="show"/>
                 <field name="zip" optional="show"/>
                 <field name="country_id" optional="show"/>
+                <field name="company_id" optional="show"/>
             </list>
         </field>
     </record>

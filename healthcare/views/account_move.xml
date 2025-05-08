@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="account_move_healthcare_bill_view_form" model="ir.ui.view">
+        <field name="name">account.move.healthcare.bill.form</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="arch" type="xml">
+            <!-- Add a new Confirm and Check Stock button -->
+            <xpath expr="//notebook/page[@name='other_info']/group/group[@name='sale_info_group']/field[@name='delivery_date']" position="after">
+                <field name="bill_ids" readonly="True"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

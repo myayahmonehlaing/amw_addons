@@ -16,13 +16,14 @@ class HealthcarePatients(models.Model):
     _inherits = {'res.partner': 'partner_id'}
     _inherit = ["mail.thread", "mail.activity.mixin", "analytic.mixin"]
     _description = "Patients"
+    _order = 'name'
 
     # === FIELDS ===#
 
     number = fields.Char(
         string="ID",
         copy=False,
-        default=lambda self: self.compute_id(),
+        default=lambda self: _('New'),
         store=True,
         required=True,
         readonly=True,
@@ -48,23 +49,11 @@ class HealthcarePatients(models.Model):
     # ===== method =======#
     # To compute the sequence value of PAT000001
     @api.model
-    def compute_id(self):
-        """
-        Search for the last patient id in the database
-        """
-        last_patient_id = self.env["healthcare.appointment"].search(
-            [], order="patient_id desc", limit=1
-        )
-        if last_patient_id and last_patient_id.patient_id:
-            # Extract the numeric part and increment it
-            last_number = int(last_patient_id.patient_id[3:])  # Assumes format PATxxxxx
-            new_number = last_number + 1
-        else:
-            # Start from 1 if no records exist
-            new_number = 1
+    def create(self, vals):
+        if vals.get('number', 'New') == 'New':
+            vals['number'] = self.env['ir.sequence'].next_by_code('healthcare.patients.code') or 'New'
+        return super(HealthcarePatients, self).create(vals)
 
-        # Format the new patient id as PATxxxxx
-        return f"PAT{str(new_number).zfill(5)}"
 
     # compute the age based on dob, if age is -value:raise error and other age can accept to store
     @api.depends("dob")
@@ -132,3 +121,4 @@ class HealthcarePatients(models.Model):
             name = f"{rec.name} - {gender_short} / {rec.age}"
             result.append((rec.id, name))
         return result
+

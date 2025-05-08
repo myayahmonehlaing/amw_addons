@@ -1,10 +1,27 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
 
+    <record id="view_healthcare_resources_search" model="ir.ui.view">
+        <field name="name">res.healthcare.resources.search</field>
+        <field name="model">healthcare.resources</field>
+        <field name="arch" type="xml">
+            <search string="Search Healthcare Resource">
+                <field name="name"/>
+                <field name="facility_id"/>
+                <separator/>
+
+                <group expand="0" string="Group By">
+                    <filter string="Facility" name="facility_id" domain="[]" context="{'group_by': 'facility_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
     <record id="action_healthcare_resources_view" model="ir.actions.act_window">
         <field name="name">Resources</field>
         <field name="res_model">healthcare.resources</field>
         <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="healthcare.view_healthcare_resources_search"/>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
                 Create a Resource in Health Care Center
@@ -19,6 +36,7 @@
             <list string="Resources" sample="1">
                 <field name="name" optional="show"/>
                 <field name="facility_id" optional="show"/>
+                <field name="company_id" optional="hide"/>
             </list>
         </field>
     </record>
@@ -35,6 +53,7 @@
                         </h1>
                     </div>
                     <group>
+                        <field name="company_id"/>
                         <field name="facility_id"/>
                     </group>
                 </sheet>

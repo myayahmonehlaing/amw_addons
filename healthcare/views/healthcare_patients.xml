@@ -1,10 +1,48 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
 
+    <record id="view_healthcare_patients_search" model="ir.ui.view">
+        <field name="name">res.healthcare.patients.search</field>
+        <field name="model">healthcare.patients</field>
+        <field name="arch" type="xml">
+            <search string="Search Healthcare Patient">
+                <field name="number"/>
+                <field name="name"/>
+                <field name="gender"/>
+                <field name="email"/>
+                <field name="street"/>
+                <field name="street2"/>
+                <field name="zip"/>
+                <field name="city"/>
+                <field name="state_id"/>
+                <field name="country_id"/>
+                <separator/>
+                <filter name="gender" string="Female"
+                        domain="[('gender', '=', 'female')]"/>
+                <filter name="gender" string="Male" domain="[('gender', '=', 'male')]"/>
+                <separator/>
+
+                <filter string="DOB" name="dob" date="dob"/>
+                <group expand="0" string="Group By">
+                    <filter string="Street" name="street" domain="[]" context="{'group_by': 'street'}"/>
+                    <filter string="Street2" name="street2" domain="[]" context="{'group_by': 'street2'}"/>
+                    <filter string="Zip" name="zip" domain="[]" context="{'group_by': 'zip'}"/>
+                    <filter string="City" name="city" domain="[]" context="{'group_by': 'city'}"/>
+                    <filter string="State" name="state_id" domain="[]" context="{'group_by': 'state_id'}"/>
+                    <filter string="Country" name="country_id" domain="[]" context="{'group_by': 'country_id'}"/>
+                    <filter string="Gender" name="gender" domain="[]" context="{'group_by': 'gender'}"/>
+                    <separator/>
+                    <filter string="DOB" name="dob" domain="[]" context="{'group_by':'dob'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
     <record id="action_healthcare_patients_view" model="ir.actions.act_window">
         <field name="name">Patients</field>
         <field name="res_model">healthcare.patients</field>
         <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="healthcare.view_healthcare_patients_search"/>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
                 Create a appointment patients in Health Care Center
@@ -41,6 +79,7 @@
         <field name="arch" type="xml">
             <form string="Appointment Patients">
                 <sheet>
+                    <field name="image_1920" widget='image' class="oe_avatar" options='{"preview_image": "avatar_128"}'/>
                     <div class="oe_title">
                         <h1>
                             <field name="name" placeholder="Patient Name"/>

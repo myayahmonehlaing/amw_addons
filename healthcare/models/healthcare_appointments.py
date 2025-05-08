@@ -1,4 +1,4 @@
-from odoo import models, fields, api
+from odoo import models, fields, api, _
 
 
 APPOINTMENT_CATEGORY = [
@@ -17,12 +17,13 @@ class HealthcareAppointments(models.Model):
     _name = "healthcare.appointment"
     _inherit = ["mail.thread", "mail.activity.mixin", "analytic.mixin"]
     _description = "The appointment list for the healthcare center"
+    _order = "name desc"
 
     # === FIELDS ===#
     name = fields.Char(
         string="Name",
         copy=False,
-        default=lambda self: self._compute_name(),
+        default=lambda self: _("New"),
         store=True,
         readonly=True,
     )
@@ -41,10 +42,10 @@ class HealthcareAppointments(models.Model):
     provider_id = fields.Many2one(
         "healthcare.providers", string="Provider", required=True, tracking=True
     )
-    status = fields.Many2one(
+    status_id = fields.Many2one(
         "healthcare.appointment.status",
         string="Status",
-        default=lambda self: self._get_default_status(),
+        default=lambda self: self.get_default_status(),
         required=True,
         tracking=True,
     )
@@ -65,35 +66,29 @@ class HealthcareAppointments(models.Model):
     )
     reason = fields.Text(string="Reason", tracking=True)
     message_to_patient = fields.Text(string="Message To Patient", tracking=True)
-
+    company_id = fields.Many2one(
+        comodel_name='res.company',
+        required=True, index=True,
+        default=lambda self: self.env.company)
     # ===== SQL Constraint =====#
 
     # ===== method =======#
     @api.model
-    def _compute_name(self):
-
-        # Search for the last appointment name in the database
-        last_appointment = self.env["healthcare.appointment"].search(
-            [], order="name desc", limit=1
-        )
-        if last_appointment and last_appointment.name:
-            # Extract the numeric part and increment it
-            last_number = int(last_appointment.name[1:])  # Assumes format Axxxxx
-            new_number = last_number + 1
-        else:
-            # Start from 1 if no records exist
-            new_number = 1
-
-        # Format the new billing number as Axxxxx
-        return f"A{str(new_number).zfill(5)}"
+    def create(self, vals):
+        if vals.get("name", "New") == "New":
+            vals["name"] = (
+                self.env["ir.sequence"].next_by_code("healthcare.appointment.code")
+                or "New"
+            )
+        return super().create(vals)
 
     @api.model
-    def _get_default_status(self):
+    def get_default_status(self):
         return self.env["healthcare.appointment.status"].search(
             [("default", "=", True)], limit=1
         )
 
-    @api.onchange('visit_type')
+    @api.onchange("visit_type_id")
     def _store_the_relative_value(self):
-        if self.visit_type:
+        if self.visit_type_id:
             self.appointment_mode = self.visit_type_id.appointment_mode

@@ -1,10 +1,44 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
 
+    <record id="view_healthcare_providers_search" model="ir.ui.view">
+        <field name="name">res.healthcare.providers.search</field>
+        <field name="model">healthcare.providers</field>
+        <field name="arch" type="xml">
+            <search string="Search Healthcare Provider">
+                <field name="name"/>
+                <field name="speciality_id"/>
+                <field name="qualifications"/>
+                <field name="visit_type_id"/>
+                <field name="email"/>
+                <field name="phone"/>
+                <field name="street"/>
+                <field name="street2"/>
+                <field name="zip"/>
+                <field name="city"/>
+                <field name="state_id"/>
+                <field name="country_id"/>
+                <separator/>
+                <group expand="0" string="Group By">
+                    <filter string="Specility" name="speciality_id" domain="[]" context="{'group_by': 'speciality_id'}"/>
+                    <filter string="Visit Type" name="visit_type_id" domain="[]" context="{'group_by': 'visit_type_id'}"/>
+                    <separator/>
+                    <filter string="Street" name="street" domain="[]" context="{'group_by': 'street'}"/>
+                    <filter string="Street2" name="street2" domain="[]" context="{'group_by': 'street2'}"/>
+                    <filter string="Zip" name="zip" domain="[]" context="{'group_by': 'zip'}"/>
+                    <filter string="City" name="city" domain="[]" context="{'group_by': 'city'}"/>
+                    <filter string="State" name="state_id" domain="[]" context="{'group_by': 'state_id'}"/>
+                    <filter string="Country" name="country_id" domain="[]" context="{'group_by': 'country_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
     <record id="action_healthcare_providers_view" model="ir.actions.act_window">
         <field name="name">Providers</field>
         <field name="res_model">healthcare.providers</field>
         <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="healthcare.view_healthcare_providers_search"/>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
                 Create a Providers in Health Care Center
@@ -18,16 +52,17 @@
         <field name="arch" type="xml">
             <list string="Providers" sample="1">
                 <field name="name" optional="show"/>
-                <field name="specialty_id" optional="show"/>
+                <field name="speciality_id" optional="show"/>
                 <field name="email" optional="show"/>
                 <field name="phone" optional="show"/>
-                <field name="visit_type" optional="show"/>
+                <field name="visit_type_id" optional="show"/>
                 <field name="street" optional="show"/>
                 <field name="street2" optional="hide"/>
                 <field name="zip" optional="hide"/>
                 <field name="city" optional="hide"/>
                 <field name="state_id" optional="hide"/>
                 <field name="country_id" optional="hide"/>
+                <field name="company_id" optional="show"/>
             </list>
         </field>
     </record>
@@ -45,9 +80,10 @@
                     </div>
                     <group>
                         <group>
-                            <field name="specialty_id"/>
+                            <field name="speciality_id"/>
                             <field name="qualifications"/>
-                            <field name="visit_type"/>
+                            <field name="visit_type_id"/>
+                            <field name="company_id"/>
                             <field name="email"/>
                             <field name="phone"/>
                         </group>

@@ -3,14 +3,15 @@ from odoo import models, fields
 class HealthcareProviders(models.Model):
     _name = 'healthcare.providers'
     _description = "The provider list for the healthcare center"
+    _order='name'
 
     # === FIELDS ===#
     name = fields.Char(string="Name",
                        store=True,
                        required=True)
-    specialty_id = fields.Many2one("healthcare.providers.specialty", string="Specialty",required=True)
+    speciality_id = fields.Many2one("healthcare.providers.speciality", string="Speciality",required=True)
     qualifications = fields.Text('Qualifications')
-    visit_type = fields.Many2one("healthcare.visit.types", string="Visit Type",required=True)
+    visit_type_id = fields.Many2one("healthcare.visit.types", string="Visit Type",required=True)
     email = fields.Char(string="Email",required=True)
     phone = fields.Char(string="Phone",required=True)
 
@@ -24,6 +25,10 @@ class HealthcareProviders(models.Model):
         domain="[('country_id', '=?', country_id)]")
     country_id = fields.Many2one(
         'res.country', string='Country', readonly=False, store=True)
+    company_id = fields.Many2one(
+        comodel_name='res.company',
+        required=True, index=True,
+        default=lambda self: self.env.company)
     # ===== SQL Constraint =====#
 
     # ===== method =======#

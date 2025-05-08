@@ -1,7 +1,7 @@
 from . import healthcare_facility
 from . import healthcare_resources
 from . import healthcare_visit_types
-from . import healthcare_provider_specialty
+from . import healthcare_provider_speciality
 from . import healthcare_providers
 from . import healthcare_schedule_rules
 from . import healthcare_schedule_rules_line
@@ -15,3 +15,5 @@ from . import healthcare_billing_procedures
 from . import healthcare_billing_products
 from . import healthcare_billings
 from . import res_config_settings
+from . import sale_order
+from . import account_move

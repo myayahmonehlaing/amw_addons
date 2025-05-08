@@ -1,9 +1,34 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
 
+    <record id="view_healthcare_labs_search" model="ir.ui.view">
+        <field name="name">res.healthcare.labs.search</field>
+        <field name="model">healthcare.labs</field>
+        <field name="arch" type="xml">
+            <search string="Search Healthcare Lab">
+                <field name="name"/>
+                <field name="patient_id"/>
+                <field name="provider_id"/>
+                <field name="results"/>
+                <field name="diagnosis"/>
+                <separator/>
+                <filter string="Date" name="date" date="date"/>
+                <separator/>
+
+                <group expand="0" string="Group By">
+                    <filter string="Patient" name="patient_id" domain="[]" context="{'group_by': 'patient_id'}"/>
+                    <filter string="Provider" name="provider_id" domain="[]" context="{'group_by': 'provider_id'}"/>
+                    <separator/>
+                    <filter string="Date" name="date" domain="[]" context="{'group_by':'date'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
     <record id="action_healthcare_labs_view" model="ir.actions.act_window">
         <field name="name">Labs</field>
         <field name="res_model">healthcare.labs</field>
+        <field name="search_view_id" ref="healthcare.view_healthcare_labs_search"/>
         <field name="view_mode">list,form</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
@@ -23,6 +48,7 @@
                 <field name="date" optional="show"/>
                 <field name="results" optional="hide"/>
                 <field name="diagnosis" optional="hide"/>
+                <field name="company_id" optional="show"/>
             </list>
         </field>
     </record>
@@ -43,6 +69,7 @@
                         </group>
                         <group>
                             <field name="date"/>
+                            <field name="company_id"/>
                             <field name="patient_id"/>
                             <field name="provider_id"/>
                         </group>

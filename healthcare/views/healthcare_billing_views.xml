@@ -1,10 +1,43 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
 
+    <record id="view_healthcare_billing_search" model="ir.ui.view">
+        <field name="name">res.healthcare.billing.search</field>
+        <field name="model">healthcare.billing</field>
+        <field name="arch" type="xml">
+            <search string="Search Healthcare Billing">
+                <field name="name"/>
+                <field name="appointment_id"/>
+                <field name="patient_id"/>
+                <field name="age"/>
+                <field name="sex"/>
+                <field name="facility_id"/>
+                <field name="provider_id"/>
+                <field name="state"/>
+                <separator/>
+                <filter name="sex" string="Female"
+                        domain="[('sex', '=', 'female')]"/>
+                <filter name="sex" string="Male" domain="[('sex', '=', 'male')]"/>
+                <separator/>
+
+                <group expand="0" string="Group By">
+                    <filter string="Facility" name="facility_id" domain="[]" context="{'group_by': 'facility_id'}"/>
+                    <filter string="Patient" name="patient_id" domain="[]" context="{'group_by': 'patient_id'}"/>
+                    <filter string="Provider" name="provider_id" domain="[]" context="{'group_by': 'provider_id'}"/>
+                    <filter string="Gender" name="sex" domain="[]" context="{'group_by': 'sex'}"/>
+                    <filter string="State" name="state" domain="[]" context="{'group_by': 'state'}"/>
+                    <separator/>
+                    <filter string="Billing Date" name="date" domain="[]" context="{'group_by':'date'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
     <record id="action_healthcare_billings_view" model="ir.actions.act_window">
         <field name="name">Billing</field>
         <field name="res_model">healthcare.billing</field>
         <field name="view_mode">list,kanban,form</field>
+        <field name="search_view_id" ref="healthcare.view_healthcare_billing_search"/>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
                 Create a billing in Health Care Center
@@ -26,7 +59,8 @@
                 <field name="sex" optional="show"/>
                 <field name="date" optional="show"/>
                 <field name="state" optional="show"/>
-                <field name="currency" optional="show"/>
+                <field name="currency_id" optional="show"/>
+                <field name="company_id" optional="show"/>
             </list>
         </field>
     </record>
@@ -41,21 +75,29 @@
                     <button name="create_sale_order"
                             type="object"
                             string="Confirm"
+                            invisible="state=='confirm'"
                             class="oe_highlight"/>
                     <field name="state"
                            widget="statusbar"
                            options="{'clickable': True}"/>
                 </header>
                 <sheet>
-                    <!--                    <div class="oe_button_box" name="button_box">-->
-                    <!--                        <button name="action_view_saleorder"-->
-                    <!--                                type="object"-->
-                    <!--                                class="oe_stat_button"-->
-                    <!--                                icon="fa-pencil-square-o"-->
-                    <!--                                invisible="sale_order_count == 0">-->
-                    <!--                            <field name="sale_order_count" widget="statinfo" string="Sale Orders"/>-->
-                    <!--                        </button>-->
-                    <!--                    </div>-->
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_saleorder"
+                                type="object"
+                                class="oe_stat_button"
+                                icon="fa-pencil-square-o"
+                                invisible="sale_order_count == 0">
+                            <field name="sale_order_count" widget="statinfo" string="Sale Orders"/>
+                        </button>
+                        <button name="action_view_invoice"
+                                type="object"
+                                class="oe_stat_button"
+                                icon="fa-pencil-square-o"
+                                invisible="invoice_count == 0">
+                            <field name="invoice_count" widget="statinfo" string="Invoice"/>
+                        </button>
+                    </div>
                     <div class="oe_title">
                         <h1>
                             <field name="name"/>
@@ -71,9 +113,10 @@
                         </group>
                         <group>
                             <field name="date"/>
+                            <field name="company_id"/>
                             <field name="facility_id"/>
                             <field name="provider_id"/>
-                            <field name="currency"/>
+                            <field name="currency_id"/>
                         </group>
                     </group>
                     <notebook>
@@ -120,17 +163,17 @@
                                 </list>
                             </field>
                             <group col="12" class="oe_invoice_lines_tab overflow-hidden">
-                                    <group colspan="8">
-                                    </group>
-                                    <group colspan="4">
-                                        <group class="oe_subtotal_footer">
+                                <group colspan="8">
+                                </group>
+                                <group colspan="4">
+                                    <group class="oe_subtotal_footer">
 
-                                            <field name="product_total" readonly="1"/>
-                                            <field name="total_amount" readonly="1"/>
-                                            <field name="amount_due" readonly="1" class="oe_subtotal_footer_separator"/>
-                                        </group>
+                                        <field name="product_total" readonly="1"/>
+                                        <field name="total_amount" readonly="1"/>
+                                        <field name="amount_due" readonly="1" class="oe_subtotal_footer_separator"/>
                                     </group>
                                 </group>
+                            </group>
                         </page>
                     </notebook>
                 </sheet>
@@ -144,8 +187,8 @@
         <field name="model">healthcare.billing</field>
         <field name="arch" type="xml">
             <kanban class="o_kanban_mobile" sample="1" quick_create="false">
-<!--                <progressbar field="activity_state"-->
-<!--                             colors='{"planned": "success", "today": "warning", "overdue": "danger"}'/>-->
+                <!--                <progressbar field="activity_state"-->
+                <!--                             colors='{"planned": "success", "today": "warning", "overdue": "danger"}'/>-->
                 <templates>
                     <t t-name="card">
                         <div class="d-flex align-items-baseline mb-2">

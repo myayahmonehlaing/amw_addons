@@ -6,7 +6,7 @@ class HealthcareImages(models.Model):
 
     # === FIELDS ===#
     image=fields.Image(string="Image")
-    image_relation=fields.Many2one("healthcare.images",string="Image Relation")
+    image_relation_id=fields.Many2one("healthcare.images",string="Image Relation")
 
     # ===== SQL Constraint =====#
 

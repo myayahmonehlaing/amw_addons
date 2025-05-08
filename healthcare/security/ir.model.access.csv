@@ -6,7 +6,7 @@ access_healthcare_image_images,healthcare.image.images user,model_healthcare_ima
 access_healthcare_labs,healthcare.labs user,model_healthcare_labs,base.group_user,1,1,1,1
 access_healthcare_appointment,healthcare.appointment user,model_healthcare_appointment,base.group_user,1,1,1,1
 access_healthcare_providers,healthcare.providers user,model_healthcare_providers,base.group_user,1,1,1,1
-access_healthcare_providers_specialty,healthcare.providers.specialty user,model_healthcare_providers_specialty,base.group_user,1,1,1,1
+access_healthcare_providers_speciality,healthcare.providers.speciality user,model_healthcare_providers_speciality,base.group_user,1,1,1,1
 access_healthcare_visit_types,healthcare.visit.types user,model_healthcare_visit_types,base.group_user,1,1,1,1
 access_healthcare_schedule_rules_line,healthcare.schedule.rules.line user,model_healthcare_schedule_rules_line,base.group_user,1,1,1,1
 access_healthcare_schedule_rules,healthcare.schedule.rules user,model_healthcare_schedule_rules,base.group_user,1,1,1,1
