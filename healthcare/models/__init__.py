@@ -6,6 +6,7 @@ from . import healthcare_providers
 from . import healthcare_schedule_rules
 from . import healthcare_schedule_rules_line
 from . import healthcare_appointment_status
+from . import healthcare_appointment_date
 from . import healthcare_patients
 from . import healthcare_image_images
 from . import healthcare_images

@@ -15,4 +15,6 @@ access_healthcare_appointment_patients,healthcare.appointment.patients user,mode
 access_healthcare_billing_procedures,healthcare.billing.procedures user,model_healthcare_billing_procedures,base.group_user,1,1,1,1
 access_healthcare_billing_products,healthcare.billing.products user,model_healthcare_billing_products,base.group_user,1,1,1,1
 access_healthcare_billings,healthcare.billings user,model_healthcare_billing,base.group_user,1,1,1,1
+access_healthcare_appointment_date,healthcare.appointment.date user,model_healthcare_appointment_date,base.group_user,1,1,1,1
+access_healthcare_generate_date,healthcare.generate.date user,model_healthcare_generate_date,base.group_user,1,1,1,1
 

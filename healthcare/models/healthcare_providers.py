@@ -29,6 +29,7 @@ class HealthcareProviders(models.Model):
         comodel_name='res.company',
         required=True, index=True,
         default=lambda self: self.env.company)
+ 
     # ===== SQL Constraint =====#
 
     # ===== method =======#

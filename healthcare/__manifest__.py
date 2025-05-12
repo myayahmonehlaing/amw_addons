@@ -29,6 +29,7 @@
         "views/healthcare_visit_types_views.xml",
         "views/healthcare_schedule_rules_views.xml",
         "views/healthcare_appointment_status_views.xml",
+        "views/healthcare_appointment_date_views.xml",
         "views/healthcare_patients.xml",
         "views/healthcare_appointments_views.xml",
         "views/healthcare_images_views.xml",
@@ -40,6 +41,7 @@
         "views/res_config_settings_views.xml",
         "views/sale_order.xml",
         "views/account_move.xml",
+        "wizard/healthcare_generate_date_view.xml",
 
         #report
         "report/ir_action_report.xml",

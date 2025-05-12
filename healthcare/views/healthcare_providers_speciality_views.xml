@@ -18,6 +18,7 @@
         <field name="arch" type="xml">
             <list string="Speciality" editable="bottom" sample="1">
                 <field name="name"/>
+                <field name="color" widget="color"/>
             </list>
         </field>
     </record>

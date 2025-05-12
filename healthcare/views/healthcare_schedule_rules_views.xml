@@ -46,7 +46,7 @@
         </field>
     </record>
 
-    <record id="view_healthcare_schedule_rules_form" model="ir.ui.view">
+   <record id="view_healthcare_schedule_rules_form" model="ir.ui.view">
         <field name="name">res.healthcare.schedule.rules.form</field>
         <field name="model">healthcare.schedule.rules</field>
         <field name="arch" type="xml">
@@ -56,10 +56,9 @@
                         <field name="provider_id"/>
                         <field name="facility_id"/>
                         <field name="visit_type_id"/>
-                        <field name="company_id"/>
                     </group>
                     <notebook>
-                        <page string="Scheduled Rule Lines" name="scheduled_rules_line_ids">
+                        <page string="Scheduled Rule Lines" name="scheduled_rules_line">
                             <field
                                     name="scheduled_rules_line_ids"
                                     widget="sol_o2m"
@@ -70,8 +69,8 @@
                                         limit="200"
                                 >
                                     <field name="day_allowed" placeholder="Select the day..."/>
-                                    <field name="duration_from"/>
-                                    <field name="duration_to"/>
+                                    <field name="hour_from" widget="float_time_selection" placeholder="00:00"/>
+                                    <field name="hour_to" widget="float_time_selection" placeholder="00:00"/>
                                     <field name="number_of_appointment_per_day"/>
                                 </list>
                             </field>

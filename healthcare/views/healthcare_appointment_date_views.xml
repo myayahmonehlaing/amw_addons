@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="view_healthcare_appointment_date_list" model="ir.ui.view">
+        <field name="name">healthcare.appointment.date.list</field>
+        <field name="model">healthcare.appointment.date</field>
+        <field name="arch" type="xml">
+            <list string="Appointment Date" create="false">
+                 <header>
+                    <button name="action_generate_appointment_date" string="Generate Appointment Dates" type="object"
+                            class="btn-primary ms-1"
+                            display="always"/>
+                </header>
+                <field name="date" />
+                <field name="provider_id" />
+                <field name="specialty_id" />
+                <field name="resource_id"/>
+                <field name="facility_id" />
+                <field name="status"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_healthcare_appointment_date_form" model="ir.ui.view">
+        <field name="name">healthcare.appointment.date.form</field>
+        <field name="model">healthcare.appointment.date</field>
+        <field name="arch" type="xml">
+            <form string="Appointment Types">
+                 <header>
+
+
+                    <field name="status" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                         <button type="object"
+                            name="action_view_appointment"
+                            class="oe_stat_button"
+                            icon="fa-calendar"
+                            invisible="appointment_count == 0" >
+                            <field name="appointment_count" widget="statinfo" string="Appointments"/>
+                        </button>
+                    </div>
+                    <group>
+                         <group>
+                             <field name="date" readonly="1"/>
+                             <field name="resource_id"/>
+                             <field name="facility_id" />
+                         </group>
+                        <group>
+                              <field name="provider_id"  readonly="1"/>
+                            <field name="specialty_id"  readonly="1" />
+                            <field name="color" invisible="1"/>
+                            <field name="date_from"/>
+                        <field name="date_to"/>
+                        </group>
+                    </group>
+                     <notebook>
+                        <page string="Appointments" name="appointments">
+                            <field
+                                    name="appointment_ids"
+                                    mode="list">
+                                <list  editable="bottom"  limit="200" >
+                                    <field name="token_number" />
+                                    <field name="name" />
+                                    <field name="patient_id"/>
+                                    <field name="reason" />
+                                    <field name="status_id"  widget="badge" />
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+       <record id="view_healthcare_appointment_date_kanban" model="ir.ui.view">
+        <field name="name">healthcare.appointment.date.kanban</field>
+        <field name="model">healthcare.appointment.date</field>
+        <field name="arch" type="xml">
+            <kanban create="false" quick_create="false" color_field="color">
+                <field name="provider_id"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_card">
+                            <div class="o_kanban_details">
+                                <strong><span class="fa fa-user me-2" aria-label="Partner" title="Provider"/> <field name="name"/></strong><br/>
+                                <div> </div>
+
+                                <div>Resource :  <field name="resource_id"/> </div>
+                                <div> <field name="specialty_id"/></div>
+                                 <div> </div>
+                            </div>
+                             <footer class="o_kanban_footer">
+                                <div class="col-6">
+                                    <button type="object"
+                                            name="action_create_appointment"
+                                            class="btn btn-primary btn-sm"
+
+                                    >
+                                        New Appointment
+                                    </button>
+                                </div>
+                                <div class="col-2"  >
+                                     <a t-if="record.appointment_count?.value" class="btn btn-sm btn-link smaller" >
+                                            <i class="fa fa-credit-card me-1" aria-label="Purchases" role="img" title="Appointments"/>
+                                            <field name="appointment_count"/>
+                                        </a>
+
+                                </div>
+                                <div class="col-4">
+                                     <field name="status" widget="label_selection" options="{'classes': { 'close': 'default', 'in-progress': 'success'}}" class="ms-auto"/>
+                                </div>
+                        </footer>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="view_healthcare_appointment_date_calendar" model="ir.ui.view">
+        <field name="name">healthcare.appointment.date.calendar</field>
+        <field name="model">healthcare.appointment.date</field>
+        <field name="arch" type="xml">
+            <calendar string="Appointment Calendar" create="false"
+                  edit="false" date_start="date_from"   date_stop="date_to" color="provider_id">
+                <field name="specialty_id"/>
+
+<!--                <toolbar>-->
+<!--                    <button name="action_create_appointment"-->
+<!--                            type="object"-->
+<!--                            string="New Appointment"-->
+<!--                            class="btn-primary"-->
+<!--                            context="{}"-->
+<!--                    />-->
+<!--                </toolbar>-->
+            </calendar>
+        </field>
+    </record>
+     <record id="view_healthcare_appointment_date_search" model="ir.ui.view">
+        <field name="name">healthcare.appointment.date.search</field>
+        <field name="model">healthcare.appointment.date</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="specialty_id"/>
+                 <field name="facility_id" />
+                <separator/>
+                <filter string="Today" name="today_filter"
+                        domain="[('date', '=', context_today().strftime('%%Y-%%m-%%d'))]"/>
+                <filter string="Tomorrow" name="tomorrow_filter"
+                        domain="[('date', '=', (context_today() + relativedelta(days=1)).strftime('%%Y-%%m-%%d'))]"/>
+                <filter string="Day After Tomorrow" name="day_after_tomorrow_filter"
+                         domain="[('date', '=', (context_today() + relativedelta(days=2)).strftime('%%Y-%%m-%%d'))]"/>
+                <filter name="date_this_week" string="This Week" domain="[('date', '&gt;=', (datetime.datetime.combine(context_today() + relativedelta(weeks=-1,days=1,weekday=0), datetime.time(0,0,0)).to_utc())),                         ('date', '&lt;', (datetime.datetime.combine(context_today() + relativedelta(days=1,weekday=0), datetime.time(0,0,0)).to_utc())),                     ]"/>
+
+                <filter name="date_last_week" string="Last Week" domain="[('date', '&gt;=', (datetime.datetime.combine(context_today() + relativedelta(weeks=-2,days=1,weekday=0), datetime.time(0,0,0)).to_utc())),                         ('date', '&lt;', (datetime.datetime.combine(context_today() + relativedelta(weeks=-1,days=1,weekday=0), datetime.time(0,0,0)).to_utc())),                     ]"/>
+                 <group expand="0" string="Group By">
+                        <filter string="Speciality" name="group_by_speciality" domain="[]" context="{'group_by': 'specialty_id'}"/>
+                        <filter string="Provider" name="group_by_provider" domain="[]" context="{'group_by': 'provider_id'}"/>
+                      <filter string="facility_id" name="group_by_speciality" domain="[]" context="{'group_by': 'facility_id'}"/>
+                 </group>
+                  <separator/>
+                 <filter string="Running" name="running_filter"
+                        domain="[('status', '=', 'in-progress')]"/>
+            </search>
+        </field>
+    </record>
+
+
+    <record id="action_healthcare_appointment_date_view" model="ir.actions.act_window">
+        <field name="name">Appointment Dates</field>
+        <field name="res_model">healthcare.appointment.date</field>
+        <field name="view_mode">kanban,list,form,calendar</field>
+        <field name="context">{'search_default_today_filter': 1, 'search_default_running_filter': 1,}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create  appointment type in Health Care Center
+            </p>
+        </field>
+    </record>
+
+</odoo>

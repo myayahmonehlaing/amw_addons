@@ -7,6 +7,12 @@
                   web_icon="healthcare,static/description/icon.png"
                   groups="base.group_user,base.group_partner_manager"/>
 
+        <menuitem id="healthcare_appointment_date_menu_item"
+              action="healthcare.action_healthcare_appointment_date_view"
+              parent="menu_healthcare"
+              name="Dashboard"
+              sequence="0"/>
+
         <menuitem id="healthcare_appointments_menu_item"
                   name="Appointments"
                   parent="menu_healthcare"

@@ -49,6 +49,12 @@ class HealthcareAppointments(models.Model):
         required=True,
         tracking=True,
     )
+    type_id = fields.Many2one(
+        "healthcare.appointment.date",
+        string="Type",
+        # required=True,
+        tracking=True,
+    )
     visit_type_id = fields.Many2one(
         "healthcare.visit.types", string="Visit Type", required=True, tracking=True
     )
@@ -70,6 +76,18 @@ class HealthcareAppointments(models.Model):
         comodel_name='res.company',
         required=True, index=True,
         default=lambda self: self.env.company)
+    token_number = fields.Integer(string='#',  default=lambda self: self._compute_token_number(),
+        store=True, help='Token No.', )
+
+    @api.model
+    def _compute_token_number(self):
+        last_appointment = self.env["healthcare.appointment"].search([('type_id','=',self._context.get("default_type_id"))], order="id desc", limit=1)
+        if last_appointment:
+            new_number = last_appointment.token_number + 1
+        else:
+            new_number = 1
+        return new_number
+
     # ===== SQL Constraint =====#
 
     # ===== method =======#

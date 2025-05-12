@@ -5,3 +5,4 @@ class HealthcareProvidersSpeciality(models.Model):
     _description = "The provider list for the healthcare center"
 
     name = fields.Char(string="Name",store=True,required=True)
+    color = fields.Char(string="Color",required=True)

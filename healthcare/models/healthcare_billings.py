@@ -80,12 +80,13 @@ class HealthcareBilling(models.Model):
         self.total_amount = self.product_total + self.procedure_total
 
     def _compute_amount_due(self):
+        amount_due = 0
         invoice = self.env['account.move'].search([
             ('bill_ids.name', '=', self.name),  # Use 'bill_ids.name' to link with bill name
         ])
         if(invoice):
-            self.amount_due = invoice.amount_residual
-
+            amount_due = invoice.amount_residual
+        self.amount_due = amount_due
 
 
     def create_sale_order(self):

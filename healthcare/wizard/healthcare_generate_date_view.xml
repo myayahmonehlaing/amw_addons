@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_healthcare_generate_date" model="ir.ui.view">
+        <field name="name">Generate Appointment Date</field>
+        <field name="model">healthcare.generate.date</field>
+        <field name="arch" type="xml">
+            <form string="Choose your date">
+                <group>
+                    <group>
+                        <field name="date_from"/>
+                        <field name="provider_id" options="{'no_create': True}"/>
+                    </group>
+                    <group>
+                         <field name="date_to"/>
+                    </group>
+                </group>
+                <footer>
+                    <button name="action_generate_date" string="Generate" type="object" class="btn-primary" data-hotkey="q"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel" data-hotkey="x" />
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>
